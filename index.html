@@ -33,6 +33,7 @@
       <nav class="nav__links" id="navLinks" aria-label="Điều hướng chính">
         <a href="#about">Câu chuyện</a>
         <a href="#rooms">Phòng</a>
+        <a href="#gallery">Không gian</a>
         <a href="#pricing">Bảng giá</a>
         <a href="#amenities">Tiện nghi</a>
         <a href="#rules">Nội quy</a>
@@ -129,6 +130,7 @@
           <!-- Room 1 -->
           <article class="room-card reveal">
             <div class="room-card__top room-card__top--citrus">
+              <img src="assets/rooms/citrus/01-phong-tong-the.jpg" alt="Phòng Citrus Ocean / Pastel Beaver" class="room-card__img" loading="lazy" />
               <span class="room-card__tag">Phổ biến</span>
               <h3>Citrus Ocean<br /><span>&amp; Pastel Beaver</span></h3>
             </div>
@@ -143,13 +145,17 @@
                 <li><span>Qua đêm <em>(22h–10h)</em></span><b>650k</b></li>
                 <li class="price-list__hl"><span>Ngày đêm <em>(14h–12h)</em></span><b>900k</b></li>
               </ul>
-              <a href="#contact" class="btn btn--block">Đặt phòng này</a>
+              <div class="room-card__actions">
+                <a href="#gallery-citrus" class="btn btn--ghost btn--block">Xem không gian</a>
+                <a href="#contact" class="btn btn--block">Đặt phòng này</a>
+              </div>
             </div>
           </article>
 
           <!-- Room 2 -->
           <article class="room-card reveal">
             <div class="room-card__top room-card__top--maroon">
+              <img src="assets/rooms/maroon/01-giuong-hong.jpg" alt="Phòng Maroon Apple" class="room-card__img" loading="lazy" />
               <span class="room-card__tag">Ấm áp</span>
               <h3>Maroon Apple</h3>
             </div>
@@ -164,7 +170,10 @@
                 <li><span>Qua đêm <em>(22h–10h)</em></span><b>680k</b></li>
                 <li class="price-list__hl"><span>Ngày đêm <em>(14h–12h)</em></span><b>950k</b></li>
               </ul>
-              <a href="#contact" class="btn btn--block">Đặt phòng này</a>
+              <div class="room-card__actions">
+                <a href="#gallery-maroon" class="btn btn--ghost btn--block">Xem không gian</a>
+                <a href="#contact" class="btn btn--block">Đặt phòng này</a>
+              </div>
             </div>
           </article>
         </div>
@@ -176,8 +185,52 @@
       </div>
     </section>
 
+    <!-- ░░ Gallery / Showroom ░░ -->
+    <section class="gallery section" id="gallery">
+      <div class="section__inner">
+        <header class="section__head reveal">
+          <p class="kicker">Không gian &amp; showroom</p>
+          <h2>Dạo một vòng <em>từng căn phòng</em></h2>
+          <p class="section__lead">
+            Mỗi góc nhỏ đều được chăm chút. Nhấn vào bất kỳ tấm hình nào để xem lớn hơn.
+          </p>
+        </header>
+
+        <!-- Room switcher -->
+        <div class="gallery__tabs reveal" role="tablist" aria-label="Chọn phòng">
+          <button class="gallery-tab is-active" data-room="citrus" role="tab" aria-selected="true">
+            <span class="gallery-tab__dot gallery-tab__dot--citrus"></span>Citrus Ocean / Pastel Beaver
+          </button>
+          <button class="gallery-tab" data-room="maroon" role="tab" aria-selected="false">
+            <span class="gallery-tab__dot gallery-tab__dot--maroon"></span>Maroon Apple
+          </button>
+        </div>
+
+        <!-- Citrus gallery -->
+        <div class="gallery__group is-active" id="gallery-citrus" data-room="citrus">
+          <div class="gallery__grid" id="gridCitrus"></div>
+        </div>
+
+        <!-- Maroon gallery -->
+        <div class="gallery__group" id="gallery-maroon" data-room="maroon" hidden>
+          <div class="gallery__grid" id="gridMaroon"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Xem hình phòng">
+      <button class="lightbox__close" id="lbClose" aria-label="Đóng">×</button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="Hình trước">‹</button>
+      <figure class="lightbox__stage">
+        <img src="" alt="" id="lbImg" />
+        <figcaption id="lbCaption"></figcaption>
+      </figure>
+      <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="Hình tiếp">›</button>
+    </div>
+
     <!-- ░░ Pricing / Booking estimator ░░ -->
-    <section class="pricing section" id="pricing">
+    <section class="pricing section section--cream" id="pricing">
       <div class="section__inner">
         <header class="section__head reveal">
           <p class="kicker">Bảng giá &amp; ước tính</p>
@@ -410,6 +463,7 @@
       <nav class="footer__links" aria-label="Liên kết chân trang">
         <a href="#about">Câu chuyện</a>
         <a href="#rooms">Phòng</a>
+        <a href="#gallery">Không gian</a>
         <a href="#pricing">Bảng giá</a>
         <a href="#rules">Nội quy</a>
         <a href="#contact">Liên hệ</a>
