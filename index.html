@@ -7,7 +7,6 @@
   <meta name="description" content="Nostos Stays — homestay ấm áp, mộc mạc tại 61 Rạch Bùng Binh, Nhiêu Lộc, TP. Hồ Chí Minh. Một nơi để trở về, nghỉ ngơi và tìm lại cảm giác như ở nhà." />
   <meta name="theme-color" content="#1f3a2e" />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Nostos Stays — Một nơi để trở về" />
   <meta property="og:description" content="Homestay ấm áp, mộc mạc giữa lòng Sài Gòn." />
   <meta property="og:type" content="website" />
@@ -20,30 +19,36 @@
 </head>
 <body>
 
-  <!-- ░░ Decorative top leaf border ░░ -->
   <div class="leaf-strip" aria-hidden="true"></div>
 
   <!-- ░░ Navigation ░░ -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="#hero" class="nav__brand" aria-label="Nostos Stays — về đầu trang">
+      <a href="#hero" class="nav__brand" aria-label="Nostos Stays">
         <img src="assets/nostos-logo.jpg" alt="Nostos Stays" class="nav__logo" />
       </a>
 
-      <nav class="nav__links" id="navLinks" aria-label="Điều hướng chính">
-        <a href="#about">Câu chuyện</a>
-        <a href="#rooms">Phòng</a>
-        <a href="#gallery">Không gian</a>
-        <a href="#pricing">Bảng giá</a>
-        <a href="#amenities">Tiện nghi</a>
-        <a href="#rules">Nội quy</a>
-        <a href="#policies">Chính sách</a>
-        <a href="#contact" class="nav__cta">Đặt phòng</a>
-      </nav>
+      <div class="nav__cluster">
+        <nav class="nav__links" id="navLinks" aria-label="Điều hướng chính">
+          <a href="#about" data-i18n="nav.about">Câu chuyện</a>
+          <a href="#rooms" data-i18n="nav.rooms">Phòng</a>
+          <a href="#showroom" data-i18n="nav.showroom">Showroom</a>
+          <a href="#pricing" data-i18n="nav.pricing">Bảng giá</a>
+          <a href="#amenities" data-i18n="nav.amenities">Tiện nghi</a>
+          <a href="#rules" data-i18n="nav.rules">Nội quy</a>
+          <a href="#policies" data-i18n="nav.policies">Chính sách</a>
+          <a href="#contact" class="nav__cta" data-i18n="nav.book">Đặt phòng</a>
+        </nav>
 
-      <button class="nav__toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+        <div class="lang-switch" role="group" aria-label="Ngôn ngữ / Language">
+          <button type="button" data-lang="vi" class="is-active">VI</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+
+        <button class="nav__toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -57,58 +62,41 @@
       </div>
 
       <div class="hero__inner">
-        <p class="hero__eyebrow reveal">νόστος · sự trở về nhà</p>
-        <h1 class="hero__title reveal">
-          Một nơi để <em>trở về</em>,<br />
-          nghỉ ngơi và <em>thuộc về</em>.
-        </h1>
-        <p class="hero__sub reveal">
-          Nostos Stays là homestay nhỏ ấm cúng giữa lòng Sài Gòn — nơi ánh nắng,
-          cây xanh và sự mộc mạc cùng nhau kể một câu chuyện về cảm giác như ở nhà.
-        </p>
-        <div class="hero__actions reveal">
-          <a href="#rooms" class="btn btn--primary">Khám phá phòng</a>
-          <a href="#contact" class="btn btn--ghost">Đặt phòng ngay</a>
+        <p class="hero__eyebrow" data-i18n="hero.eyebrow">νόστος · sự trở về nhà</p>
+        <h1 class="hero__title" data-i18n="hero.title">Một nơi để <em>trở về</em>,<br />nghỉ ngơi và <em>thuộc về</em>.</h1>
+        <p class="hero__sub" data-i18n="hero.sub">Nostos Stays là homestay nhỏ ấm cúng giữa lòng Sài Gòn — nơi ánh nắng, cây xanh và sự mộc mạc cùng nhau kể một câu chuyện về cảm giác như ở nhà.</p>
+        <div class="hero__actions">
+          <a href="#rooms" class="btn btn--primary" data-i18n="hero.cta1">Khám phá phòng</a>
+          <a href="#contact" class="btn btn--ghost" data-i18n="hero.cta2">Đặt phòng ngay</a>
         </div>
-
-        <div class="hero__meta reveal">
-          <span>📍 61 Rạch Bùng Binh, Nhiêu Lộc</span>
+        <div class="hero__meta">
+          <span data-i18n="hero.addr">📍 61 Rạch Bùng Binh, Nhiêu Lộc</span>
           <span class="dot">·</span>
           <span>☎ 0909 488 364</span>
         </div>
       </div>
 
-      <a href="#about" class="hero__scroll" aria-label="Cuộn xuống">
-        <span></span>
-      </a>
+      <a href="#about" class="hero__scroll" aria-label="Cuộn xuống"><span></span></a>
     </section>
 
     <!-- ░░ About ░░ -->
     <section class="about section" id="about">
       <div class="section__inner about__grid">
-        <div class="about__art reveal" aria-hidden="true">
+        <div class="about__art" aria-hidden="true">
           <div class="about__card">
             <img src="assets/nostos-logo.jpg" alt="" class="about__logo" />
-            <p class="about__quote">“Nơi nào có sự bình yên,<br />nơi đó là nhà.”</p>
+            <p class="about__quote" data-i18n="about.quote">“Nơi nào có sự bình yên,<br />nơi đó là nhà.”</p>
           </div>
         </div>
         <div class="about__text">
-          <p class="kicker reveal">Câu chuyện của chúng mình</p>
-          <h2 class="reveal">Nostos — tiếng Hy Lạp cho <em>“sự trở về nhà”</em></h2>
-          <p class="reveal">
-            Sau những chuyến đi dài, ai cũng cần một nơi chốn để dừng chân. Nostos Stays
-            ra đời từ mong muốn ấy — một không gian nhỏ, ấm áp và mộc mạc, nơi bạn có thể
-            buông bỏ ồn ào phố thị và thực sự thở.
-          </p>
-          <p class="reveal">
-            Mỗi căn phòng được chăm chút bằng tông màu đất, ánh sáng dịu và những tiện nghi
-            chu đáo, để dù bạn ở 3 giờ hay cả một đêm dài, bạn vẫn cảm thấy mình đang
-            <strong>trở về</strong>, chứ không chỉ là ghé qua.
-          </p>
-          <ul class="about__points reveal">
-            <li><span>🌿</span> Không gian mộc mạc, gần gũi thiên nhiên</li>
-            <li><span>🔑</span> Check-in / check-out tự động, riêng tư</li>
-            <li><span>☕</span> Nước lọc, trà &amp; cà phê miễn phí mỗi ngày</li>
+          <p class="kicker" data-i18n="about.kicker">Câu chuyện của chúng mình</p>
+          <h2 data-i18n="about.title">Nostos — tiếng Hy Lạp cho <em>“sự trở về nhà”</em></h2>
+          <p data-i18n="about.p1">Sau những chuyến đi dài, ai cũng cần một nơi chốn để dừng chân. Nostos Stays ra đời từ mong muốn ấy — một không gian nhỏ, ấm áp và mộc mạc, nơi bạn có thể buông bỏ ồn ào phố thị và thực sự thở.</p>
+          <p data-i18n="about.p2">Mỗi căn phòng được chăm chút bằng tông màu đất, ánh sáng dịu và những tiện nghi chu đáo, để dù bạn ở 3 giờ hay cả một đêm dài, bạn vẫn cảm thấy mình đang <strong>trở về</strong>, chứ không chỉ là ghé qua.</p>
+          <ul class="about__points">
+            <li><span>🌿</span> <span data-i18n="about.pt1">Không gian mộc mạc, gần gũi thiên nhiên</span></li>
+            <li><span>🔑</span> <span data-i18n="about.pt2">Check-in / check-out tự động, riêng tư</span></li>
+            <li><span>☕</span> <span data-i18n="about.pt3">Nước lọc, trà &amp; cà phê miễn phí mỗi ngày</span></li>
           </ul>
         </div>
       </div>
@@ -117,102 +105,121 @@
     <!-- ░░ Rooms ░░ -->
     <section class="rooms section section--cream" id="rooms">
       <div class="section__inner">
-        <header class="section__head reveal">
-          <p class="kicker">Phòng nghỉ</p>
-          <h2>Chọn một góc nhỏ <em>thuộc về bạn</em></h2>
-          <p class="section__lead">
-            Hai phong cách phòng, cùng một sự ấm áp. Tất cả đều được trang bị đầy đủ tiện nghi
-            cho một kỳ nghỉ trọn vẹn.
-          </p>
+        <header class="section__head">
+          <p class="kicker" data-i18n="rooms.kicker">Phòng nghỉ</p>
+          <h2 data-i18n="rooms.title">Chọn một góc nhỏ <em>thuộc về bạn</em></h2>
+          <p class="section__lead" data-i18n="rooms.lead">Ba phong cách phòng, cùng một sự ấm áp. Tất cả đều được trang bị đầy đủ tiện nghi cho một kỳ nghỉ trọn vẹn.</p>
         </header>
 
-        <div class="rooms__grid">
-          <!-- Room 1 -->
-          <article class="room-card reveal">
-            <div class="room-card__top room-card__top--citrus">
-              <img src="assets/rooms/citrus/01-phong-tong-the.jpg" alt="Phòng Citrus Ocean / Pastel Beaver" class="room-card__img" loading="lazy" />
-              <span class="room-card__tag">Phổ biến</span>
-              <h3>Citrus Ocean<br /><span>&amp; Pastel Beaver</span></h3>
+        <div class="rooms__grid rooms__grid--3">
+          <!-- Citrus Ocean (no photos yet) -->
+          <article class="room-card">
+            <div class="room-card__top room-card__top--citrus room-card__top--soon">
+              <span class="room-card__tag" data-i18n="rooms.soonTag">Sắp ra mắt</span>
+              <h3>Citrus Ocean</h3>
             </div>
             <div class="room-card__body">
-              <p class="room-card__desc">
-                Tông màu tươi sáng, dịu mắt — lựa chọn được yêu thích cho những kỳ nghỉ
-                nhẹ nhàng, thư thái.
-              </p>
+              <p class="room-card__desc" data-i18n="rooms.citrusDesc">Tông màu tươi mát của biển và trái cây miền nắng — hình ảnh đang được cập nhật, hẹn bạn sớm nhé!</p>
               <ul class="price-list">
-                <li><span>Combo 3 giờ</span><b>400k</b></li>
-                <li><span>Combo 6 giờ</span><b>550k</b></li>
-                <li><span>Qua đêm <em>(22h–10h)</em></span><b>650k</b></li>
-                <li class="price-list__hl"><span>Ngày đêm <em>(14h–12h)</em></span><b>900k</b></li>
+                <li><span data-i18n="pkg.c3">Combo 3 giờ</span><b>400k</b></li>
+                <li><span data-i18n="pkg.c6">Combo 6 giờ</span><b>550k</b></li>
+                <li><span data-i18n="pkg.night">Qua đêm <em>(22h–10h)</em></span><b>650k</b></li>
+                <li class="price-list__hl"><span data-i18n="pkg.day">Ngày đêm <em>(14h–12h)</em></span><b>900k</b></li>
               </ul>
               <div class="room-card__actions">
-                <a href="#gallery-citrus" class="btn btn--ghost btn--block">Xem không gian</a>
-                <a href="#contact" class="btn btn--block">Đặt phòng này</a>
+                <span class="btn btn--ghost btn--block is-disabled" data-i18n="rooms.photoSoon">Hình sắp có</span>
+                <a href="#contact" class="btn btn--block" data-i18n="rooms.book">Đặt phòng này</a>
               </div>
             </div>
           </article>
 
-          <!-- Room 2 -->
-          <article class="room-card reveal">
+          <!-- Pastel Beaver (brown-toned room, 12 photos) -->
+          <article class="room-card">
+            <div class="room-card__top room-card__top--pastel">
+              <img src="assets/rooms/pastel-beaver/01-phong-tong-the.jpg" alt="Phòng Pastel Beaver" class="room-card__img" loading="lazy" />
+              <span class="room-card__tag" data-i18n="rooms.popularTag">Phổ biến</span>
+              <h3>Pastel Beaver</h3>
+            </div>
+            <div class="room-card__body">
+              <p class="room-card__desc" data-i18n="rooms.pastelDesc">Tông nâu gỗ ấm áp, mộc mạc — lựa chọn được yêu thích cho những kỳ nghỉ nhẹ nhàng, thư thái.</p>
+              <ul class="price-list">
+                <li><span data-i18n="pkg.c3">Combo 3 giờ</span><b>400k</b></li>
+                <li><span data-i18n="pkg.c6">Combo 6 giờ</span><b>550k</b></li>
+                <li><span data-i18n="pkg.night">Qua đêm <em>(22h–10h)</em></span><b>650k</b></li>
+                <li class="price-list__hl"><span data-i18n="pkg.day">Ngày đêm <em>(14h–12h)</em></span><b>900k</b></li>
+              </ul>
+              <div class="room-card__actions">
+                <a href="#showroom-pastel" class="btn btn--ghost btn--block" data-i18n="rooms.view">Xem không gian</a>
+                <a href="#contact" class="btn btn--block" data-i18n="rooms.book">Đặt phòng này</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Maroon Apple (pink room, 8 photos) -->
+          <article class="room-card">
             <div class="room-card__top room-card__top--maroon">
               <img src="assets/rooms/maroon/01-giuong-hong.jpg" alt="Phòng Maroon Apple" class="room-card__img" loading="lazy" />
-              <span class="room-card__tag">Ấm áp</span>
+              <span class="room-card__tag" data-i18n="rooms.warmTag">Ấm áp</span>
               <h3>Maroon Apple</h3>
             </div>
             <div class="room-card__body">
-              <p class="room-card__desc">
-                Sắc đỏ rượu vang trầm ấm, lãng mạn — không gian dành cho những ai yêu sự
-                sâu lắng và riêng tư.
-              </p>
+              <p class="room-card__desc" data-i18n="rooms.maroonDesc">Sắc đỏ rượu vang trầm ấm, lãng mạn — không gian dành cho những ai yêu sự sâu lắng và riêng tư.</p>
               <ul class="price-list">
-                <li><span>Combo 3 giờ</span><b>420k</b></li>
-                <li><span>Combo 6 giờ</span><b>570k</b></li>
-                <li><span>Qua đêm <em>(22h–10h)</em></span><b>680k</b></li>
-                <li class="price-list__hl"><span>Ngày đêm <em>(14h–12h)</em></span><b>950k</b></li>
+                <li><span data-i18n="pkg.c3">Combo 3 giờ</span><b>420k</b></li>
+                <li><span data-i18n="pkg.c6">Combo 6 giờ</span><b>570k</b></li>
+                <li><span data-i18n="pkg.night">Qua đêm <em>(22h–10h)</em></span><b>680k</b></li>
+                <li class="price-list__hl"><span data-i18n="pkg.day">Ngày đêm <em>(14h–12h)</em></span><b>950k</b></li>
               </ul>
               <div class="room-card__actions">
-                <a href="#gallery-maroon" class="btn btn--ghost btn--block">Xem không gian</a>
-                <a href="#contact" class="btn btn--block">Đặt phòng này</a>
+                <a href="#showroom-maroon" class="btn btn--ghost btn--block" data-i18n="rooms.view">Xem không gian</a>
+                <a href="#contact" class="btn btn--block" data-i18n="rooms.book">Đặt phòng này</a>
               </div>
             </div>
           </article>
         </div>
 
-        <p class="rooms__note reveal">
-          * Combo 6 giờ giờ tuỳ chọn, check-out trễ nhất là 21h. Extra giờ: 100k/giờ
-          (báo trước ít nhất 2 giờ).
-        </p>
+        <p class="rooms__note" data-i18n="rooms.note">* Combo 6 giờ giờ tuỳ chọn, check-out trễ nhất là 21h. Extra giờ: 100k/giờ (báo trước ít nhất 2 giờ).</p>
       </div>
     </section>
 
-    <!-- ░░ Gallery / Showroom ░░ -->
-    <section class="gallery section" id="gallery">
+    <!-- ░░ Showroom ░░ -->
+    <section class="gallery section" id="showroom">
       <div class="section__inner">
-        <header class="section__head reveal">
-          <p class="kicker">Không gian &amp; showroom</p>
-          <h2>Dạo một vòng <em>từng căn phòng</em></h2>
-          <p class="section__lead">
-            Mỗi góc nhỏ đều được chăm chút. Nhấn vào bất kỳ tấm hình nào để xem lớn hơn.
-          </p>
+        <header class="section__head">
+          <p class="kicker" data-i18n="showroom.kicker">Showroom</p>
+          <h2 data-i18n="showroom.title">Dạo một vòng <em>từng căn phòng</em></h2>
+          <p class="section__lead" data-i18n="showroom.lead">Mỗi góc nhỏ đều được chăm chút. Nhấn vào bất kỳ tấm hình nào để xem lớn hơn.</p>
         </header>
 
-        <!-- Room switcher -->
-        <div class="gallery__tabs reveal" role="tablist" aria-label="Chọn phòng">
-          <button class="gallery-tab is-active" data-room="citrus" role="tab" aria-selected="true">
-            <span class="gallery-tab__dot gallery-tab__dot--citrus"></span>Citrus Ocean / Pastel Beaver
+        <div class="gallery__tabs" role="tablist" aria-label="Chọn phòng">
+          <button class="gallery-tab" data-room="citrus" role="tab" aria-selected="false">
+            <span class="gallery-tab__dot gallery-tab__dot--citrus"></span>Citrus Ocean
+          </button>
+          <button class="gallery-tab is-active" data-room="pastel" role="tab" aria-selected="true">
+            <span class="gallery-tab__dot gallery-tab__dot--pastel"></span>Pastel Beaver
           </button>
           <button class="gallery-tab" data-room="maroon" role="tab" aria-selected="false">
             <span class="gallery-tab__dot gallery-tab__dot--maroon"></span>Maroon Apple
           </button>
         </div>
 
-        <!-- Citrus gallery -->
-        <div class="gallery__group is-active" id="gallery-citrus" data-room="citrus">
-          <div class="gallery__grid" id="gridCitrus"></div>
+        <!-- Citrus: coming soon -->
+        <div class="gallery__group" id="showroom-citrus" data-room="citrus" hidden>
+          <div class="gallery__soon">
+            <span class="gallery__soon-ic">📸</span>
+            <h3 data-i18n="showroom.soonTitle">Hình đang được cập nhật</h3>
+            <p data-i18n="showroom.soonText">Phòng Citrus Ocean sắp có bộ ảnh riêng. Ghé lại sớm nhé — hoặc liên hệ để tụi mình gửi hình trực tiếp!</p>
+            <a href="#contact" class="btn btn--primary" data-i18n="showroom.soonCta">Liên hệ xem phòng</a>
+          </div>
         </div>
 
-        <!-- Maroon gallery -->
-        <div class="gallery__group" id="gallery-maroon" data-room="maroon" hidden>
+        <!-- Pastel Beaver -->
+        <div class="gallery__group is-active" id="showroom-pastel" data-room="pastel">
+          <div class="gallery__grid" id="gridPastel"></div>
+        </div>
+
+        <!-- Maroon Apple -->
+        <div class="gallery__group" id="showroom-maroon" data-room="maroon" hidden>
           <div class="gallery__grid" id="gridMaroon"></div>
         </div>
       </div>
@@ -232,83 +239,72 @@
     <!-- ░░ Pricing / Booking estimator ░░ -->
     <section class="pricing section section--cream" id="pricing">
       <div class="section__inner">
-        <header class="section__head reveal">
-          <p class="kicker">Bảng giá &amp; ước tính</p>
-          <h2>Tính nhanh chi phí <em>cho chuyến đi của bạn</em></h2>
-          <p class="section__lead">
-            Chọn phòng và gói lưu trú để xem mức giá tham khảo. Cuối tuần, ngày lễ và khách
-            thứ 3 sẽ có phụ thu nhỏ.
-          </p>
+        <header class="section__head">
+          <p class="kicker" data-i18n="pricing.kicker">Bảng giá &amp; ước tính</p>
+          <h2 data-i18n="pricing.title">Tính nhanh chi phí <em>cho chuyến đi của bạn</em></h2>
+          <p class="section__lead" data-i18n="pricing.lead">Chọn phòng và gói lưu trú để xem mức giá tham khảo. Cuối tuần, ngày lễ và khách thứ 3 sẽ có phụ thu nhỏ.</p>
         </header>
 
-        <div class="estimator reveal">
+        <div class="estimator">
           <form class="estimator__form" id="estimatorForm">
             <div class="field">
-              <label for="roomSel">Phòng</label>
+              <label for="roomSel" data-i18n="est.room">Phòng</label>
               <select id="roomSel">
-                <option value="citrus">Citrus Ocean / Pastel Beaver</option>
-                <option value="maroon">Maroon Apple</option>
+                <option value="citrus" data-i18n="est.optCitrus">Citrus Ocean</option>
+                <option value="pastel" data-i18n="est.optPastel">Pastel Beaver</option>
+                <option value="maroon" data-i18n="est.optMaroon">Maroon Apple</option>
               </select>
             </div>
-
             <div class="field">
-              <label for="pkgSel">Gói lưu trú</label>
+              <label for="pkgSel" data-i18n="est.pkg">Gói lưu trú</label>
               <select id="pkgSel">
-                <option value="c3">Combo 3 giờ</option>
-                <option value="c6">Combo 6 giờ</option>
-                <option value="night">Qua đêm (22h–10h)</option>
-                <option value="day" selected>Ngày đêm (14h–12h)</option>
+                <option value="c3" data-i18n="est.optC3">Combo 3 giờ</option>
+                <option value="c6" data-i18n="est.optC6">Combo 6 giờ</option>
+                <option value="night" data-i18n="est.optNight">Qua đêm (22h–10h)</option>
+                <option value="day" selected data-i18n="est.optDay">Ngày đêm (14h–12h)</option>
               </select>
             </div>
-
             <div class="field">
-              <label for="daySel">Ngày nhận phòng</label>
+              <label for="daySel" data-i18n="est.day">Ngày nhận phòng</label>
               <select id="daySel">
-                <option value="weekday" selected>Ngày thường (T2–T6)</option>
-                <option value="weekend">Cuối tuần (T7, CN) · +50k</option>
-                <option value="holiday">Ngày lễ · +100k</option>
+                <option value="weekday" selected data-i18n="est.optWeekday">Ngày thường (T2–T6)</option>
+                <option value="weekend" data-i18n="est.optWeekend">Cuối tuần (T7, CN) · +50k</option>
+                <option value="holiday" data-i18n="est.optHoliday">Ngày lễ · +100k</option>
               </select>
             </div>
-
             <div class="field">
-              <label for="guestSel">Số khách</label>
+              <label for="guestSel" data-i18n="est.guests">Số khách</label>
               <select id="guestSel">
-                <option value="2" selected>1–2 khách</option>
-                <option value="3">3 khách · +100k</option>
+                <option value="2" selected data-i18n="est.optG2">1–2 khách</option>
+                <option value="3" data-i18n="est.optG3">3 khách · +100k</option>
               </select>
             </div>
           </form>
 
           <div class="estimator__result" aria-live="polite">
-            <p class="estimator__label">Tổng tạm tính</p>
+            <p class="estimator__label" data-i18n="est.total">Tổng tạm tính</p>
             <p class="estimator__price"><span id="estPrice">900</span>k</p>
             <ul class="estimator__breakdown" id="estBreakdown"></ul>
-            <a href="#contact" class="btn btn--primary btn--block">Liên hệ đặt phòng</a>
-            <p class="estimator__fine">Giá tham khảo, chưa gồm dịch vụ phát sinh. Vui lòng liên hệ để xác nhận.</p>
+            <a href="#contact" class="btn btn--primary btn--block" data-i18n="est.contact">Liên hệ đặt phòng</a>
+            <p class="estimator__fine" data-i18n="est.fine">Giá tham khảo, chưa gồm dịch vụ phát sinh. Vui lòng liên hệ để xác nhận.</p>
           </div>
         </div>
 
-        <!-- Full price table -->
-        <div class="table-wrap reveal">
+        <div class="table-wrap">
           <table class="price-table">
             <thead>
               <tr>
-                <th>Phòng</th>
-                <th>Combo 3 giờ</th>
-                <th>Combo 6 giờ</th>
-                <th>Qua đêm<br /><small>22h–10h</small></th>
-                <th>Ngày đêm<br /><small>14h–12h</small></th>
+                <th data-i18n="table.room">Phòng</th>
+                <th data-i18n="pkg.c3">Combo 3 giờ</th>
+                <th data-i18n="pkg.c6">Combo 6 giờ</th>
+                <th data-i18n="table.night">Qua đêm<br /><small>22h–10h</small></th>
+                <th data-i18n="table.day">Ngày đêm<br /><small>14h–12h</small></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Citrus Ocean / Pastel Beaver</td>
-                <td>400k</td><td>550k</td><td>650k</td><td>900k</td>
-              </tr>
-              <tr>
-                <td>Maroon Apple</td>
-                <td>420k</td><td>570k</td><td>680k</td><td>950k</td>
-              </tr>
+              <tr><td>Citrus Ocean</td><td>400k</td><td>550k</td><td>650k</td><td>900k</td></tr>
+              <tr><td>Pastel Beaver</td><td>400k</td><td>550k</td><td>650k</td><td>900k</td></tr>
+              <tr><td>Maroon Apple</td><td>420k</td><td>570k</td><td>680k</td><td>950k</td></tr>
             </tbody>
           </table>
         </div>
@@ -318,25 +314,25 @@
     <!-- ░░ Amenities ░░ -->
     <section class="amenities section section--green" id="amenities">
       <div class="section__inner">
-        <header class="section__head section__head--light reveal">
-          <p class="kicker">Tiện nghi</p>
-          <h2>Tất cả các phòng đều được <em>trang bị đầy đủ</em></h2>
+        <header class="section__head section__head--light">
+          <p class="kicker" data-i18n="amen.kicker">Tiện nghi</p>
+          <h2 data-i18n="amen.title">Tất cả các phòng đều được <em>trang bị đầy đủ</em></h2>
         </header>
 
         <div class="amenities__grid">
-          <div class="amenity reveal"><span class="amenity__icon">🔑</span><h4>Check in/out tự động</h4><p>Nhận &amp; trả phòng linh hoạt, riêng tư.</p></div>
-          <div class="amenity reveal"><span class="amenity__icon">🎥</span><h4>Camera an ninh</h4><p>Check cam ẩn, an toàn cho mọi khách.</p></div>
-          <div class="amenity reveal"><span class="amenity__icon">🛏️</span><h4>Giường nệm 1m6</h4><p>Êm ái cho giấc ngủ trọn vẹn.</p></div>
-          <div class="amenity reveal"><span class="amenity__icon">🛋️</span><h4>Sofa &amp; bàn</h4><p>Góc thư giãn ấm cúng.</p></div>
-          <div class="amenity reveal"><span class="amenity__icon">📺</span><h4>Tivi Google Play</h4><p>Sẵn Netflix &amp; YouTube Premium.</p></div>
-          <div class="amenity reveal"><span class="amenity__icon">🍳</span><h4>Khu vực bếp</h4><p>Vật dụng &amp; gia vị nấu ăn cơ bản.</p></div>
-          <div class="amenity reveal"><span class="amenity__icon">🧴</span><h4>Đồ dùng cá nhân</h4><p>Bàn chải, lược, khăn, máy sấy tóc.</p></div>
-          <div class="amenity reveal"><span class="amenity__icon">☕</span><h4>Nước, trà &amp; cà phê</h4><p>Miễn phí mỗi ngày.</p></div>
+          <div class="amenity"><span class="amenity__icon">🔑</span><h4 data-i18n="amen.1t">Check in/out tự động</h4><p data-i18n="amen.1d">Nhận &amp; trả phòng linh hoạt, riêng tư.</p></div>
+          <div class="amenity"><span class="amenity__icon">🎥</span><h4 data-i18n="amen.2t">Camera an ninh</h4><p data-i18n="amen.2d">Check cam ẩn, an toàn cho mọi khách.</p></div>
+          <div class="amenity"><span class="amenity__icon">🛏️</span><h4 data-i18n="amen.3t">Giường nệm 1m6</h4><p data-i18n="amen.3d">Êm ái cho giấc ngủ trọn vẹn.</p></div>
+          <div class="amenity"><span class="amenity__icon">🛋️</span><h4 data-i18n="amen.4t">Sofa &amp; bàn</h4><p data-i18n="amen.4d">Góc thư giãn ấm cúng.</p></div>
+          <div class="amenity"><span class="amenity__icon">📺</span><h4 data-i18n="amen.5t">Tivi Google Play</h4><p data-i18n="amen.5d">Sẵn Netflix &amp; YouTube Premium.</p></div>
+          <div class="amenity"><span class="amenity__icon">🍳</span><h4 data-i18n="amen.6t">Khu vực bếp</h4><p data-i18n="amen.6d">Vật dụng &amp; gia vị nấu ăn cơ bản.</p></div>
+          <div class="amenity"><span class="amenity__icon">🧴</span><h4 data-i18n="amen.7t">Đồ dùng cá nhân</h4><p data-i18n="amen.7d">Bàn chải, lược, khăn, máy sấy tóc.</p></div>
+          <div class="amenity"><span class="amenity__icon">☕</span><h4 data-i18n="amen.8t">Nước, trà &amp; cà phê</h4><p data-i18n="amen.8d">Miễn phí mỗi ngày.</p></div>
         </div>
 
-        <div class="amenities__notes reveal">
-          <p>🪑 Chỉ nhận tối đa <strong>3 khách</strong> (phụ thu 100k cho khách thứ 3).</p>
-          <p>📅 T7, CN phụ thu 50k/phòng — Ngày lễ phụ thu 100k/phòng.</p>
+        <div class="amenities__notes">
+          <p data-i18n="amen.note1">🪑 Chỉ nhận tối đa <strong>3 khách</strong> (phụ thu 100k cho khách thứ 3).</p>
+          <p data-i18n="amen.note2">📅 T7, CN phụ thu 50k/phòng — Ngày lễ phụ thu 100k/phòng.</p>
         </div>
       </div>
     </section>
@@ -344,70 +340,70 @@
     <!-- ░░ House Rules ░░ -->
     <section class="rules section section--cream" id="rules">
       <div class="section__inner">
-        <header class="section__head reveal">
-          <p class="kicker">Nội quy</p>
-          <h2>Một vài quy định nhỏ <em>tại Nostos Stays</em></h2>
-          <p class="section__lead">Để mỗi vị khách đều có những giây phút dễ chịu và an toàn nhất.</p>
+        <header class="section__head">
+          <p class="kicker" data-i18n="rules.kicker">Nội quy</p>
+          <h2 data-i18n="rules.title">Một vài quy định nhỏ <em>tại Nostos Stays</em></h2>
+          <p class="section__lead" data-i18n="rules.lead">Để mỗi vị khách đều có những giây phút dễ chịu và an toàn nhất.</p>
         </header>
 
         <ol class="rules__list">
-          <li class="reveal"><span class="rules__num">1</span>Vui lòng đi nhẹ, nói khẽ và đi lại nhẹ nhàng sau 22h.</li>
-          <li class="reveal"><span class="rules__num">2</span>Không hút thuốc trong phòng.</li>
-          <li class="reveal"><span class="rules__num">3</span>Không mang thú cưng vào phòng.</li>
-          <li class="reveal"><span class="rules__num">4</span>Không tự ý di chuyển đồ đạc trong phòng.</li>
-          <li class="reveal"><span class="rules__num">5</span>Không mang thức ăn có mùi nồng vào phòng như sầu riêng, mắm, đồ nướng,…</li>
-          <li class="reveal"><span class="rules__num">6</span>Vui lòng không tổ chức tiệc tùng hoặc lưu trú vượt quá số lượng khách đã đăng ký.</li>
-          <li class="reveal"><span class="rules__num">7</span>Không tự ý trang trí nếu chưa báo trước. Khi có hư hỏng phát sinh, home sẽ tính phí sửa chữa phòng về hiện trạng cũ.</li>
-          <li class="reveal"><span class="rules__num">8</span>Vui lòng rửa chén bát sau khi sử dụng. Nếu để lại số lượng lớn chưa rửa, home sẽ phụ thu 100.000đ.</li>
-          <li class="reveal"><span class="rules__num">9</span>Không sử dụng chất cấm hoặc thực hiện các hành vi vi phạm pháp luật Việt Nam.</li>
-          <li class="reveal"><span class="rules__num">10</span>Nếu chăn, ga, gối, nệm, sofa bị dính vết bẩn không thể xử lý, home sẽ thu phí tương đương giá trị khi mua mới.</li>
-          <li class="reveal"><span class="rules__num">11</span>Home không chịu trách nhiệm với đồ đạc gửi trước khi check-in và đồ thất lạc ngoài thời gian lưu trú. Nếu để quên đồ, vui lòng chủ động liên hệ để lấy lại sớm nhất.</li>
-          <li class="reveal"><span class="rules__num">12</span>Trường hợp đồ đạc trong phòng có vấn đề như hư hỏng/mất mát, home sẽ trao đổi cùng bạn để đưa ra phương án phù hợp nhất.</li>
+          <li><span class="rules__num">1</span><span data-i18n="rules.1">Vui lòng đi nhẹ, nói khẽ và đi lại nhẹ nhàng sau 22h.</span></li>
+          <li><span class="rules__num">2</span><span data-i18n="rules.2">Không hút thuốc trong phòng.</span></li>
+          <li><span class="rules__num">3</span><span data-i18n="rules.3">Không mang thú cưng vào phòng.</span></li>
+          <li><span class="rules__num">4</span><span data-i18n="rules.4">Không tự ý di chuyển đồ đạc trong phòng.</span></li>
+          <li><span class="rules__num">5</span><span data-i18n="rules.5">Không mang thức ăn có mùi nồng vào phòng như sầu riêng, mắm, đồ nướng,…</span></li>
+          <li><span class="rules__num">6</span><span data-i18n="rules.6">Vui lòng không tổ chức tiệc tùng hoặc lưu trú vượt quá số lượng khách đã đăng ký.</span></li>
+          <li><span class="rules__num">7</span><span data-i18n="rules.7">Không tự ý trang trí nếu chưa báo trước. Khi có hư hỏng phát sinh, home sẽ tính phí sửa chữa phòng về hiện trạng cũ.</span></li>
+          <li><span class="rules__num">8</span><span data-i18n="rules.8">Vui lòng rửa chén bát sau khi sử dụng. Nếu để lại số lượng lớn chưa rửa, home sẽ phụ thu 100.000đ.</span></li>
+          <li><span class="rules__num">9</span><span data-i18n="rules.9">Không sử dụng chất cấm hoặc thực hiện các hành vi vi phạm pháp luật Việt Nam.</span></li>
+          <li><span class="rules__num">10</span><span data-i18n="rules.10">Nếu chăn, ga, gối, nệm, sofa bị dính vết bẩn không thể xử lý, home sẽ thu phí tương đương giá trị khi mua mới.</span></li>
+          <li><span class="rules__num">11</span><span data-i18n="rules.11">Home không chịu trách nhiệm với đồ đạc gửi trước khi check-in và đồ thất lạc ngoài thời gian lưu trú. Nếu để quên đồ, vui lòng chủ động liên hệ để lấy lại sớm nhất.</span></li>
+          <li><span class="rules__num">12</span><span data-i18n="rules.12">Trường hợp đồ đạc trong phòng có vấn đề như hư hỏng/mất mát, home sẽ trao đổi cùng bạn để đưa ra phương án phù hợp nhất.</span></li>
         </ol>
 
-        <p class="rules__wish reveal">Hy vọng bạn sẽ có những giây phút dễ chịu tại <strong>nostos stays</strong> 🌿</p>
+        <p class="rules__wish" data-i18n="rules.wish">Hy vọng bạn sẽ có những giây phút dễ chịu tại <strong>nostos stays</strong> 🌿</p>
       </div>
     </section>
 
     <!-- ░░ Policies ░░ -->
     <section class="policies section" id="policies">
       <div class="section__inner">
-        <header class="section__head reveal">
-          <p class="kicker">Chính sách</p>
-          <h2>Thanh toán, huỷ, đổi <em>&amp; phụ thu</em></h2>
+        <header class="section__head">
+          <p class="kicker" data-i18n="pol.kicker">Chính sách</p>
+          <h2 data-i18n="pol.title">Thanh toán, huỷ, đổi <em>&amp; phụ thu</em></h2>
         </header>
 
-        <div class="policies__tabs reveal" role="tablist" aria-label="Chính sách">
-          <button class="policy-tab is-active" data-tab="pay" role="tab" aria-selected="true">Thanh toán</button>
-          <button class="policy-tab" data-tab="cancel" role="tab" aria-selected="false">Huỷ &amp; đổi lịch</button>
-          <button class="policy-tab" data-tab="surcharge" role="tab" aria-selected="false">Phụ thu</button>
+        <div class="policies__tabs" role="tablist" aria-label="Chính sách">
+          <button class="policy-tab is-active" data-tab="pay" role="tab" aria-selected="true" data-i18n="pol.tabPay">Thanh toán</button>
+          <button class="policy-tab" data-tab="cancel" role="tab" aria-selected="false" data-i18n="pol.tabCancel">Huỷ &amp; đổi lịch</button>
+          <button class="policy-tab" data-tab="surcharge" role="tab" aria-selected="false" data-i18n="pol.tabSur">Phụ thu</button>
         </div>
 
         <div class="policies__panels">
           <div class="policy-panel is-active" data-panel="pay" role="tabpanel">
             <ul class="policy-list">
-              <li><b>Đặt theo khung giờ hoặc 1 ngày:</b> Thanh toán 100%.</li>
-              <li><b>Đặt từ 2 ngày:</b> Cọc 50% và thanh toán 50% còn lại trước lịch check-in 1 ngày.</li>
+              <li data-i18n="pol.pay1"><b>Đặt theo khung giờ hoặc 1 ngày:</b> Thanh toán 100%.</li>
+              <li data-i18n="pol.pay2"><b>Đặt từ 2 ngày:</b> Cọc 50% và thanh toán 50% còn lại trước lịch check-in 1 ngày.</li>
             </ul>
           </div>
 
           <div class="policy-panel" data-panel="cancel" role="tabpanel" hidden>
             <ul class="policy-list policy-list--steps">
-              <li><span class="policy-pill">100%</span> Huỷ trước ngày check-in <b>10 ngày</b>: hoàn tiền 100%.</li>
-              <li><span class="policy-pill">80%</span> Trước check-in <b>7–9 ngày</b>: hoàn tiền 80%.</li>
-              <li><span class="policy-pill">50%</span> Trước check-in <b>4–6 ngày</b>: hoàn tiền 50%.</li>
-              <li><span class="policy-pill policy-pill--mute">0%</span> Trước check-in <b>dưới 4 ngày</b>: không hoàn tiền.</li>
+              <li><span class="policy-pill">100%</span> <span data-i18n="pol.cancel1">Huỷ trước ngày check-in <b>10 ngày</b>: hoàn tiền 100%.</span></li>
+              <li><span class="policy-pill">80%</span> <span data-i18n="pol.cancel2">Trước check-in <b>7–9 ngày</b>: hoàn tiền 80%.</span></li>
+              <li><span class="policy-pill">50%</span> <span data-i18n="pol.cancel3">Trước check-in <b>4–6 ngày</b>: hoàn tiền 50%.</span></li>
+              <li><span class="policy-pill policy-pill--mute">0%</span> <span data-i18n="pol.cancel4">Trước check-in <b>dưới 4 ngày</b>: không hoàn tiền.</span></li>
             </ul>
-            <p class="policy-fine">* Đổi lịch booking trước ít nhất 3 ngày, hỗ trợ đổi lịch 2 lần. Từ lần thứ 2 thu phí 200k/lần đổi.</p>
+            <p class="policy-fine" data-i18n="pol.cancelFine">* Đổi lịch booking trước ít nhất 3 ngày, hỗ trợ đổi lịch 2 lần. Từ lần thứ 2 thu phí 200k/lần đổi.</p>
           </div>
 
           <div class="policy-panel" data-panel="surcharge" role="tabpanel" hidden>
             <ul class="policy-list">
-              <li><b>Trẻ em dưới 6 tuổi:</b> Không phụ thu.</li>
-              <li><b>Trẻ em 6–12 tuổi:</b> Phụ thu 50k / trẻ em / đêm.</li>
-              <li><b>Người lớn thứ 3 trở đi:</b> 100k / người lớn / đêm.</li>
+              <li data-i18n="pol.sur1"><b>Trẻ em dưới 6 tuổi:</b> Không phụ thu.</li>
+              <li data-i18n="pol.sur2"><b>Trẻ em 6–12 tuổi:</b> Phụ thu 50k / trẻ em / đêm.</li>
+              <li data-i18n="pol.sur3"><b>Người lớn thứ 3 trở đi:</b> 100k / người lớn / đêm.</li>
             </ul>
-            <p class="policy-fine">** Lưu ý: Với trường hợp ở trên 2 người nhưng không khai báo, khi phát hiện home sẽ phụ thu 300k/khách.</p>
+            <p class="policy-fine" data-i18n="pol.surFine">** Lưu ý: Với trường hợp ở trên 2 người nhưng không khai báo, khi phát hiện home sẽ phụ thu 300k/khách.</p>
           </div>
         </div>
       </div>
@@ -416,35 +412,33 @@
     <!-- ░░ Contact ░░ -->
     <section class="contact section section--green" id="contact">
       <div class="section__inner contact__grid">
-        <div class="contact__info reveal">
-          <p class="kicker kicker--light">Đặt phòng &amp; liên hệ</p>
-          <h2>Sẵn sàng <em>trở về</em> chưa?</h2>
-          <p class="contact__lead">
-            Nhắn cho tụi mình để giữ chỗ hoặc hỏi bất cứ điều gì — Nostos luôn ở đây chờ bạn.
-          </p>
+        <div class="contact__info">
+          <p class="kicker kicker--light" data-i18n="contact.kicker">Đặt phòng &amp; liên hệ</p>
+          <h2 data-i18n="contact.title">Sẵn sàng <em>trở về</em> chưa?</h2>
+          <p class="contact__lead" data-i18n="contact.lead">Nhắn cho tụi mình để giữ chỗ hoặc hỏi bất cứ điều gì — Nostos luôn ở đây chờ bạn.</p>
 
           <ul class="contact__list">
             <li>
               <span class="contact__ic">📍</span>
-              <div><b>Địa chỉ</b><a href="https://maps.google.com/?q=61+Rạch+Bùng+Binh,+Nhiêu+Lộc,+TP.+Hồ+Chí+Minh" target="_blank" rel="noopener">61 Rạch Bùng Binh, P. Nhiêu Lộc, TP. Hồ Chí Minh</a></div>
+              <div><b data-i18n="contact.addrLabel">Địa chỉ</b><a href="https://maps.google.com/?q=61+Rạch+Bùng+Binh,+Nhiêu+Lộc,+TP.+Hồ+Chí+Minh" target="_blank" rel="noopener">61 Rạch Bùng Binh, P. Nhiêu Lộc, TP. Hồ Chí Minh</a></div>
             </li>
             <li>
               <span class="contact__ic">☎</span>
-              <div><b>Điện thoại / Zalo</b><a href="tel:0909488364">0909 488 364</a></div>
+              <div><b data-i18n="contact.phoneLabel">Điện thoại / Zalo</b><a href="tel:0909488364">0909 488 364</a></div>
             </li>
             <li>
               <span class="contact__ic">⏰</span>
-              <div><b>Nhận / trả phòng</b><span>Ngày đêm 14h–12h · Qua đêm 22h–10h</span></div>
+              <div><b data-i18n="contact.timeLabel">Nhận / trả phòng</b><span data-i18n="contact.timeVal">Ngày đêm 14h–12h · Qua đêm 22h–10h</span></div>
             </li>
           </ul>
 
           <div class="contact__actions">
-            <a href="tel:0909488364" class="btn btn--primary">Gọi đặt phòng</a>
-            <a href="https://zalo.me/0909488364" target="_blank" rel="noopener" class="btn btn--ghost btn--ghost-light">Nhắn Zalo</a>
+            <a href="tel:0909488364" class="btn btn--primary" data-i18n="contact.call">Gọi đặt phòng</a>
+            <a href="https://zalo.me/0909488364" target="_blank" rel="noopener" class="btn btn--ghost btn--ghost-light" data-i18n="contact.zalo">Nhắn Zalo</a>
           </div>
         </div>
 
-        <div class="contact__map reveal">
+        <div class="contact__map">
           <iframe
             title="Bản đồ Nostos Stays"
             src="https://www.google.com/maps?q=61%20R%E1%BA%A1ch%20B%C3%B9ng%20Binh%2C%20Nhi%C3%AAu%20L%E1%BB%99c%2C%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh&output=embed"
@@ -459,20 +453,19 @@
   <footer class="footer">
     <div class="footer__inner">
       <img src="assets/nostos-logo.jpg" alt="Nostos Stays" class="footer__logo" />
-      <p class="footer__tag">Một nơi để trở về.</p>
+      <p class="footer__tag" data-i18n="footer.tag">Một nơi để trở về.</p>
       <nav class="footer__links" aria-label="Liên kết chân trang">
-        <a href="#about">Câu chuyện</a>
-        <a href="#rooms">Phòng</a>
-        <a href="#gallery">Không gian</a>
-        <a href="#pricing">Bảng giá</a>
-        <a href="#rules">Nội quy</a>
-        <a href="#contact">Liên hệ</a>
+        <a href="#about" data-i18n="nav.about">Câu chuyện</a>
+        <a href="#rooms" data-i18n="nav.rooms">Phòng</a>
+        <a href="#showroom" data-i18n="nav.showroom">Showroom</a>
+        <a href="#pricing" data-i18n="nav.pricing">Bảng giá</a>
+        <a href="#rules" data-i18n="nav.rules">Nội quy</a>
+        <a href="#contact" data-i18n="nav.contact">Liên hệ</a>
       </nav>
       <p class="footer__meta">© <span id="year"></span> Nostos Stays · 61 Rạch Bùng Binh, Nhiêu Lộc, TP.HCM · 0909 488 364</p>
     </div>
   </footer>
 
-  <!-- Back to top -->
   <button class="to-top" id="toTop" aria-label="Lên đầu trang">↑</button>
 
   <script src="js/script.js"></script>

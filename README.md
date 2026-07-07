@@ -10,7 +10,10 @@ the site leans into that feeling of returning home.
 
 - **Hero** with animated organic "blobs" and a homecoming tagline
 - **Câu chuyện** (About) — the meaning behind the Nostos name
-- **Phòng** (Rooms) — Citrus Ocean / Pastel Beaver & Maroon Apple, with price lists
+- **Bilingual** — a VI / EN language switch in the nav (choice saved to `localStorage`)
+- **Phòng** (Rooms) — Citrus Ocean, Pastel Beaver & Maroon Apple, with price lists
+- **Showroom** — per-room photo galleries with a room switcher and click-to-enlarge
+  lightbox (Citrus Ocean shows a "coming soon" placeholder until photos arrive)
 - **Bảng giá** — full price table **plus an interactive booking estimator**
   (room × package × weekday/weekend/holiday × guests → live total)
 - **Tiện nghi** (Amenities) — full equipment grid
@@ -46,6 +49,13 @@ python3 -m http.server 8000
 
 - **Prices** live in two places: the markup in `index.html` (room cards +
   table) and the `PRICES` object in `js/script.js` (estimator). Update both.
+- **Text / translations** live in the `I18N` dictionary in `js/script.js`,
+  keyed by the `data-i18n="..."` attributes on elements in `index.html`.
+  Every visible string has a `vi` and an `en` entry — edit both.
+- **Room photos** go in `assets/rooms/<room>/`; the `GALLERY` object in
+  `js/script.js` lists each room's files + captions. To add Citrus Ocean
+  photos, drop them in `assets/rooms/citrus-ocean/`, add a `citrus` entry to
+  `GALLERY`, and swap the "coming soon" block for a `<div class="gallery__grid">`.
 - **Colors** are CSS variables at the top of `css/styles.css` (`--forest`,
   `--terra`, `--cream`, …).
 - **Contact info** (phone, address, map) is in the `#contact` section of
