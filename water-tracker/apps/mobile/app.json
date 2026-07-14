@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Water Tracker",
+    "slug": "water-tracker",
+    "version": "0.1.0",
+    "scheme": "minitee",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "app.minitee.watertracker",
+      "associatedDomains": ["applinks:minitee.app"],
+      "infoPlist": {
+        "NFCReaderUsageDescription": "Scan the sticker on your water bottle to log a drink."
+      }
+    },
+    "android": {
+      "package": "app.minitee.watertracker",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [{ "scheme": "https", "host": "minitee.app", "pathPrefix": "/t/" }],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "permissions": ["android.permission.NFC"]
+    },
+    "plugins": [
+      "expo-dev-client",
+      "expo-notifications",
+      [
+        "react-native-nfc-manager",
+        {
+          "nfcPermission": "Scan your bottle sticker to log water",
+          "selectIdentifiers": [],
+          "includeNdefEntitlement": true
+        }
+      ]
+    ]
+  }
+}

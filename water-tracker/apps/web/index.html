@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Water Tracker</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font-family: system-ui, sans-serif; margin: 0; min-height: 100vh;
+      display: grid; place-items: center; text-align: center; padding: 24px;
+      background: linear-gradient(180deg, #eaf4ff, #ffffff);
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: linear-gradient(180deg, #0b1c2c, #060a10); color: #e6edf3; }
+    }
+    .card { max-width: 28rem; }
+    h1 { font-size: 2rem; }
+    .emoji { font-size: 4rem; }
+    .code { font-family: ui-monospace, monospace; background: rgba(47,128,237,.12);
+            padding: .2em .5em; border-radius: 6px; }
+    a.btn {
+      display: inline-block; margin: .5rem; padding: .8em 1.4em; border-radius: 10px;
+      background: #2f80ed; color: white; text-decoration: none; font-weight: 600;
+    }
+    p.small { opacity: .65; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">💧</div>
+    <h1 id="headline">Water Tracker</h1>
+    <p id="message">Scan the sticker on your bottle. Every refill, logged automatically.</p>
+    <div>
+      <a class="btn" id="ios" href="#">App Store</a>
+      <a class="btn" id="android" href="#">Google Play</a>
+    </div>
+    <p class="small" id="hint"></p>
+  </div>
+  <script>
+    // If the app is installed, the OS opens it directly via Universal/App
+    // Links and this page is never shown. Landing here means: not installed.
+    const m = location.pathname.match(/^\/t\/([a-z0-9]+)/i);
+    if (m) {
+      document.getElementById("headline").textContent = "You scanned a bottle!";
+      document.getElementById("message").innerHTML =
+        'This sticker (code <span class="code">' + m[1] + '</span>) logs water ' +
+        "to the Water Tracker app. Install it, scan again, and the bottle links " +
+        "to <em>your</em> account.";
+      document.getElementById("hint").textContent =
+        "Sharing a bottle with a friend? Same sticker, separate accounts — " +
+        "each phone logs to its own profile.";
+    }
+    // TODO: set real store URLs once published.
+  </script>
+</body>
+</html>

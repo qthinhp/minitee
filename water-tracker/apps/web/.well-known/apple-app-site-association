@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["TEAMID.app.minitee.watertracker"],
+        "components": [
+          { "/": "/t/*", "comment": "Bottle sticker deep links" }
+        ]
+      }
+    ]
+  }
+}
