@@ -7,7 +7,8 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, StyleSheet, Text, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
-import { colors } from "./theme";
+import { colors, mood } from "./theme";
+import { FloatingCat } from "./KawaiiCat";
 
 const ORB = 260;          // orb diameter
 const WAVE_H = 18;        // wave amplitude band
@@ -118,6 +119,10 @@ export function WaterOrb({ totalMl, goalMl }: { totalMl: number; goalMl: number 
           <Wave speedMs={5200} opacity={1} />
           <Wave speedMs={8200} opacity={0.45} />
           {bubbles.map((b, i) => <Bubble key={i} {...b} />)}
+          {/* Bubbles the cat rides the water line on her swim ring */}
+          <View style={styles.catSeat} pointerEvents="none">
+            <FloatingCat mood={mood(pct * 100).cat} size={78} />
+          </View>
         </Animated.View>
 
         {/* Readout floats over the water */}
@@ -149,6 +154,7 @@ const styles = StyleSheet.create({
     alignItems: "center", justifyContent: "center",
   },
   readout: { alignItems: "center" },
+  catSeat: { position: "absolute", top: -58, right: 18 },
   liters: {
     fontSize: 62, fontWeight: "800", color: "white", letterSpacing: 1,
     textShadowColor: "rgba(5,11,24,0.6)", textShadowRadius: 12, textShadowOffset: { width: 0, height: 2 },

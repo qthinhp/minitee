@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from "react";
 import { Animated, Dimensions, Easing, StyleSheet } from "react-native";
 import * as Haptics from "expo-haptics";
 
-const EMOJI = ["💧", "🎉", "✨", "💙", "🌊", "⭐", "💧", "🎊", "💦", "🏆", "✨", "💧"];
+const EMOJI = ["💧", "🎉", "✨", "🐾", "🌊", "⭐", "🐟", "🎊", "💦", "🏆", "🐾", "💧"];
 
 function Particle({ emoji, index, total }: { emoji: string; index: number; total: number }) {
   const t = useRef(new Animated.Value(0)).current;

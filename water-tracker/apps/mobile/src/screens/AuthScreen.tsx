@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { supabase } from "../lib/supabase";
 import { Field, GlowCard, NeonButton, Screen } from "../ui/components";
+import { KawaiiCat } from "../ui/KawaiiCat";
 import { colors, type } from "../ui/theme";
 
 // Email code sign-in: no passwords to remember — friendly for everyone.
@@ -31,7 +32,10 @@ export default function AuthScreen() {
 
   return (
     <Screen style={styles.container}>
-      <Text style={styles.logo}>💧</Text>
+      <View style={styles.logoRow}>
+        <KawaiiCat mood="happy" size={110} />
+        <Text style={styles.logo}>💧</Text>
+      </View>
       <Text style={[type.title, styles.center]}>Water Tracker</Text>
       <Text style={[type.dim, styles.center]}>
         Tap your bottle. Stay hydrated. That's the whole app.
@@ -69,7 +73,8 @@ export default function AuthScreen() {
 
 const styles = StyleSheet.create({
   container: { justifyContent: "center", gap: 10 },
-  logo: { fontSize: 76, textAlign: "center" },
+  logoRow: { flexDirection: "row", justifyContent: "center", alignItems: "flex-end" },
+  logo: { fontSize: 40, marginLeft: -16, marginBottom: 10 },
   center: { textAlign: "center" },
   card: { marginTop: 18, gap: 16 },
   resend: { color: colors.aqua, textAlign: "center", fontSize: 14 },

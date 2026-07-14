@@ -6,6 +6,7 @@ import * as Haptics from "expo-haptics";
 import { adjustScan, removeScan } from "../lib/queue";
 import type { RootStackParamList } from "../lib/scanHandler";
 import { Chip, NeonButton, Screen } from "../ui/components";
+import { KawaiiCat } from "../ui/KawaiiCat";
 import { colors, type } from "../ui/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ScanConfirm">;
@@ -42,17 +43,20 @@ export default function ScanConfirmScreen({ route, navigation }: Props) {
 
   return (
     <Screen style={styles.container}>
-      <Animated.Text
-        style={[styles.drop, {
+      <Animated.View
+        style={{
           opacity: drop,
           transform: [
             { scale: drop.interpolate({ inputRange: [0, 1], outputRange: [0.3, 1] }) },
             { translateY: drop.interpolate({ inputRange: [0, 1], outputRange: [-60, 0] }) },
           ],
-        }]}
+        }}
       >
-        💧
-      </Animated.Text>
+        <View style={styles.catRow}>
+          <KawaiiCat mood="excited" size={110} />
+          <Text style={styles.drop}>💧</Text>
+        </View>
+      </Animated.View>
       <Text style={styles.glug}>glug glug glug…</Text>
       <Text style={[type.hero, styles.amount]}>+{Math.round(capacityMl * selected)}ml</Text>
       <Text style={type.dim}>from {nickname} — nice one! 🎉</Text>
@@ -74,7 +78,8 @@ export default function ScanConfirmScreen({ route, navigation }: Props) {
 
 const styles = StyleSheet.create({
   container: { alignItems: "center", justifyContent: "center", gap: 14 },
-  drop: { fontSize: 84 },
+  catRow: { flexDirection: "row", alignItems: "flex-end" },
+  drop: { fontSize: 40, marginLeft: -14, marginBottom: 8 },
   glug: { color: colors.aqua, fontSize: 15, letterSpacing: 3, textTransform: "uppercase" },
   amount: { marginTop: -6 },
   question: { marginTop: 16 },

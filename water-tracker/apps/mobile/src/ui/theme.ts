@@ -30,13 +30,15 @@ export const type = {
            textTransform: "uppercase" as const, letterSpacing: 1.5 },
 };
 
-/** Drippy the mascot reacts to your progress. */
-export function mood(pct: number): { face: string; line: string } {
-  if (pct <= 0)   return { face: "😴", line: "Drippy is thirsty… wake me up with a sip!" };
-  if (pct < 25)   return { face: "🥱", line: "Nice start! Little sips, big wins." };
-  if (pct < 50)   return { face: "🙂", line: "Warming up! Your future self says thanks." };
-  if (pct < 75)   return { face: "😄", line: "Halfway there — you're on a roll!" };
-  if (pct < 100)  return { face: "🤩", line: "SO close! One more bottle to glory." };
-  if (pct < 130)  return { face: "🏆", line: "GOAL! You're basically a fountain today ⛲" };
-  return          { face: "🐳", line: "Whale mode unlocked. Legendary hydration." };
+import type { CatMood } from "./KawaiiCat";
+
+/** Bubbles the cat reacts to your progress. */
+export function mood(pct: number): { face: string; cat: CatMood; line: string } {
+  if (pct <= 0)   return { face: "😴", cat: "sleepy",  line: "Bubbles is napping… wake her up with a sip!" };
+  if (pct < 25)   return { face: "🥱", cat: "sleepy",  line: "Nice start! Little sips, big wins." };
+  if (pct < 50)   return { face: "🙂", cat: "content", line: "Warming up! Your future self says thanks." };
+  if (pct < 75)   return { face: "😄", cat: "happy",   line: "Halfway there — Bubbles is purring!" };
+  if (pct < 100)  return { face: "🤩", cat: "excited", line: "SO close! One more bottle to glory." };
+  if (pct < 130)  return { face: "🏆", cat: "party",   line: "GOAL! Bubbles is throwing you a pool party 🎉" };
+  return          { face: "🐳", cat: "party",   line: "Whale mode unlocked. Legendary hydration." };
 }

@@ -11,6 +11,7 @@ import { handleScan, RootStackParamList } from "../lib/scanHandler";
 import { NFC_MOCK_MODE, readTag } from "../lib/nfc";
 import { syncWidgets } from "../widgets/widget-sync";
 import { Chip, GlowCard, NeonButton, Screen } from "../ui/components";
+import { KawaiiCat } from "../ui/KawaiiCat";
 import { WaterOrb } from "../ui/WaterOrb";
 import { Celebration } from "../ui/Celebration";
 import { colors, mood, type } from "../ui/theme";
@@ -88,7 +89,7 @@ export default function TodayScreen({ navigation }: Props) {
             <WaterOrb totalMl={total} goalMl={goal} />
 
             <GlowCard style={styles.mascotCard}>
-              <Text style={styles.mascotFace}>{drippy.face}</Text>
+              <KawaiiCat mood={drippy.cat} size={58} />
               <Text style={[type.body, styles.mascotLine]}>{drippy.line}</Text>
             </GlowCard>
 
@@ -142,8 +143,7 @@ export default function TodayScreen({ navigation }: Props) {
 
 const styles = StyleSheet.create({
   header: { gap: 16, paddingTop: 8, paddingBottom: 4, alignItems: "stretch" },
-  mascotCard: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14 },
-  mascotFace: { fontSize: 34 },
+  mascotCard: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10 },
   mascotLine: { flex: 1 },
   pending: { color: colors.gold, textAlign: "center", fontSize: 13 },
   chipRow: { flexDirection: "row", justifyContent: "center", gap: 10, flexWrap: "wrap" },
