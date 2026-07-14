@@ -5,25 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Water Tracker</title>
   <style>
-    :root { color-scheme: light dark; }
+    :root { color-scheme: dark; }
     body {
       font-family: system-ui, sans-serif; margin: 0; min-height: 100vh;
       display: grid; place-items: center; text-align: center; padding: 24px;
-      background: linear-gradient(180deg, #eaf4ff, #ffffff);
+      background: linear-gradient(180deg, #0B1B33, #050B18); color: #EAF6FF;
     }
-    @media (prefers-color-scheme: dark) {
-      body { background: linear-gradient(180deg, #0b1c2c, #060a10); color: #e6edf3; }
+    .card {
+      max-width: 28rem; padding: 2rem; border-radius: 26px;
+      background: rgba(120,190,255,.08); border: 1px solid rgba(120,190,255,.22);
+      box-shadow: 0 0 60px rgba(57,214,255,.15);
     }
-    .card { max-width: 28rem; }
-    h1 { font-size: 2rem; }
-    .emoji { font-size: 4rem; }
-    .code { font-family: ui-monospace, monospace; background: rgba(47,128,237,.12);
-            padding: .2em .5em; border-radius: 6px; }
+    h1 { font-size: 2rem; letter-spacing: .02em; }
+    .emoji { font-size: 4rem; filter: drop-shadow(0 0 18px rgba(57,214,255,.6));
+             animation: bob 3s ease-in-out infinite; }
+    @keyframes bob { 50% { transform: translateY(-8px); } }
+    .code { font-family: ui-monospace, monospace; background: rgba(57,214,255,.14);
+            color: #39D6FF; padding: .2em .5em; border-radius: 8px; }
     a.btn {
-      display: inline-block; margin: .5rem; padding: .8em 1.4em; border-radius: 10px;
-      background: #2f80ed; color: white; text-decoration: none; font-weight: 600;
+      display: inline-block; margin: .5rem; padding: .8em 1.5em; border-radius: 999px;
+      background: linear-gradient(120deg, #2F80ED, #39D6FF); color: white;
+      text-decoration: none; font-weight: 700;
+      box-shadow: 0 0 24px rgba(57,214,255,.45);
+      transition: transform .15s ease;
     }
-    p.small { opacity: .65; font-size: .9rem; }
+    a.btn:hover { transform: scale(1.05); }
+    p.small { opacity: .6; font-size: .9rem; }
   </style>
 </head>
 <body>

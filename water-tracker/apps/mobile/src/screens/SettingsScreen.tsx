@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { supabase } from "../lib/supabase";
+import { Chip, Field, GlowCard, NeonButton, Screen } from "../ui/components";
+import { type } from "../ui/theme";
+
+const GOALS = [1500, 2000, 2500, 3000];
 
 export default function SettingsScreen() {
-  const [goalMl, setGoalMl] = useState("2500");
+  const [goalMl, setGoalMl] = useState(2500);
   const [notifyAt, setNotifyAt] = useState("21:00");
   const [busy, setBusy] = useState(false);
 
@@ -17,14 +21,14 @@ export default function SettingsScreen() {
           .order("effective_from", { ascending: false }).limit(1).maybeSingle(),
       ]);
       if (profile?.notify_at) setNotifyAt(profile.notify_at.slice(0, 5));
-      if (goal?.target_value) setGoalMl(String(Math.round(goal.target_value)));
+      if (goal?.target_value) setGoalMl(Math.round(goal.target_value));
     })();
   }, []);
 
   const save = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-    if (!/^\d{2}:\d{2}$/.test(notifyAt)) return Alert.alert("Time must be HH:MM");
+    if (!/^\d{2}:\d{2}$/.test(notifyAt)) return Alert.alert("Time should look like 21:00");
     setBusy(true);
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone ?? "UTC";
     const [p, g] = await Promise.all([
@@ -34,31 +38,41 @@ export default function SettingsScreen() {
       supabase.from("goals").upsert({
         user_id: user.id,
         metric_type_id: 1, // water
-        target_value: parseInt(goalMl, 10),
+        target_value: goalMl,
         effective_from: new Date().toISOString().slice(0, 10),
       }),
     ]);
     setBusy(false);
-    if (p.error || g.error) return Alert.alert("Error", (p.error ?? g.error)!.message);
-    Alert.alert("Saved", `Goal ${goalMl}ml, summary at ${notifyAt} (${timezone}).`);
+    if (p.error || g.error) return Alert.alert("Hmm", (p.error ?? g.error)!.message);
+    Alert.alert("Saved! 💾", `Goal ${(goalMl / 1000).toFixed(1)}L · check-in at ${notifyAt}.`);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Daily goal (ml)</Text>
-      <TextInput style={styles.input} value={goalMl} onChangeText={setGoalMl} keyboardType="number-pad" />
-      <Text style={styles.label}>Daily summary time (HH:MM, your local time)</Text>
-      <TextInput style={styles.input} value={notifyAt} onChangeText={setNotifyAt} />
-      <Button title={busy ? "..." : "Save"} onPress={save} disabled={busy} />
+    <Screen style={styles.container}>
+      <GlowCard style={styles.card}>
+        <Text style={type.label}>Daily water goal</Text>
+        <View style={styles.chips}>
+          {GOALS.map((ml) => (
+            <Chip key={ml} label={`${(ml / 1000).toFixed(1)}L`} active={goalMl === ml}
+              onPress={() => setGoalMl(ml)} />
+          ))}
+        </View>
+        <Field
+          label="Evening check-in time (we'll tell you how you did)"
+          value={notifyAt} onChangeText={setNotifyAt} placeholder="21:00"
+        />
+        <NeonButton big title={busy ? "Saving…" : "Save"} onPress={save} disabled={busy} />
+      </GlowCard>
+
       <View style={styles.spacer} />
-      <Button title="Sign out" color="#b91c1c" onPress={() => supabase.auth.signOut()} />
-    </View>
+      <NeonButton kind="danger" title="Sign out" onPress={() => supabase.auth.signOut()} />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, gap: 10 },
-  label: { fontWeight: "600", marginTop: 8 },
-  input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 12, fontSize: 16 },
+  container: { paddingTop: 24 },
+  card: { gap: 14 },
+  chips: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
   spacer: { flex: 1 },
 });

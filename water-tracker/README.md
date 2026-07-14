@@ -72,6 +72,32 @@ filling in:
 The domain must match `EXPO_PUBLIC_TAG_DOMAIN` and `app.json`
 (`associatedDomains` / `intentFilters`).
 
+## Home-screen widgets 📱
+
+Both platforms show today's total, goal progress, and a mood face; the app
+pushes fresh numbers to them after every sip (`src/widgets/widget-sync.tsx`),
+and both fall back to a cached value offline (stale days render as 0).
+
+**Android** — `react-native-android-widget`. The widget UI is plain TSX
+(`src/widgets/HydrationWidget.tsx`) rendered natively; the headless task in
+`widgetTaskHandler.tsx` (registered in `index.ts`) handles adds/resizes and
+the 30-min periodic refresh. Config lives in `app.json` under the plugin.
+Nothing extra to do beyond `npx expo prebuild` + build: long-press the home
+screen → Widgets → Water Tracker.
+
+**iOS** — a real WidgetKit extension (`targets/widget/HydrationWidget.swift`,
+home screen + lock-screen ring), generated into the Xcode project by the
+`@bacons/apple-targets` plugin. Data flows through the App Group
+`group.app.minitee.watertracker` (must match `app.json` entitlements,
+`targets/widget/expo-target.config.js`, and `APP_GROUP` in
+`src/widgets/widget-data.ts`). Requirements: `npx expo prebuild -p ios`, an
+Apple team set in Xcode signing for BOTH targets, iOS 17+. Widgets don't run
+in the simulator's Expo Go — use the dev build.
+
+Widget packages are pinned to `latest` on purpose (they version independently
+of the Expo SDK); after your first successful build, pin the resolved
+versions in package.json.
+
 ## When the stickers arrive 📦
 
 1. Flip `NFC_MOCK_MODE = false` in `apps/mobile/src/lib/nfc.ts`.

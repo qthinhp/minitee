@@ -10,6 +10,9 @@
     "ios": {
       "bundleIdentifier": "app.minitee.watertracker",
       "associatedDomains": ["applinks:minitee.app"],
+      "entitlements": {
+        "com.apple.security.application-groups": ["group.app.minitee.watertracker"]
+      },
       "infoPlist": {
         "NFCReaderUsageDescription": "Scan the sticker on your water bottle to log a drink."
       }
@@ -29,12 +32,30 @@
     "plugins": [
       "expo-dev-client",
       "expo-notifications",
+      "@bacons/apple-targets",
       [
         "react-native-nfc-manager",
         {
           "nfcPermission": "Scan your bottle sticker to log water",
           "selectIdentifiers": [],
           "includeNdefEntitlement": true
+        }
+      ],
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "Hydration",
+              "label": "Water Tracker",
+              "description": "Today's water at a glance",
+              "minWidth": "180dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 3,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            }
+          ]
         }
       ]
     ]

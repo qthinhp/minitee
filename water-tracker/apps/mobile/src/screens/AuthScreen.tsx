@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text } from "react-native";
 import { supabase } from "../lib/supabase";
+import { Field, GlowCard, NeonButton, Screen } from "../ui/components";
+import { colors, type } from "../ui/theme";
 
-// Email OTP keeps the scaffold dependency-free; swap in Sign in with
-// Apple/Google before shipping (both are ~1 config change in Supabase Auth).
+// Email code sign-in: no passwords to remember — friendly for everyone.
+// Swap in Sign in with Apple/Google before shipping (Supabase config change).
 export default function AuthScreen() {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -14,7 +16,7 @@ export default function AuthScreen() {
     setBusy(true);
     const { error } = await supabase.auth.signInWithOtp({ email: email.trim() });
     setBusy(false);
-    if (error) return Alert.alert("Error", error.message);
+    if (error) return Alert.alert("Hmm", error.message);
     setSent(true);
   };
 
@@ -24,36 +26,51 @@ export default function AuthScreen() {
       email: email.trim(), token: code.trim(), type: "email",
     });
     setBusy(false);
-    if (error) Alert.alert("Error", error.message);
+    if (error) Alert.alert("That code didn't work", "Double-check your email and try again!");
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>💧</Text>
-      <Text style={styles.subtitle}>Scan your bottle. Stay hydrated.</Text>
-      <TextInput
-        style={styles.input} placeholder="you@example.com" value={email}
-        onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address"
-        editable={!sent}
-      />
-      {sent && (
-        <TextInput
-          style={styles.input} placeholder="6-digit code from your email"
-          value={code} onChangeText={setCode} keyboardType="number-pad"
+    <Screen style={styles.container}>
+      <Text style={styles.logo}>💧</Text>
+      <Text style={[type.title, styles.center]}>Water Tracker</Text>
+      <Text style={[type.dim, styles.center]}>
+        Tap your bottle. Stay hydrated. That's the whole app.
+      </Text>
+
+      <GlowCard style={styles.card}>
+        <Field
+          label="Your email"
+          placeholder="you@example.com"
+          value={email} onChangeText={setEmail}
+          autoCapitalize="none" keyboardType="email-address" editable={!sent}
         />
-      )}
-      <Button
-        title={busy ? "..." : sent ? "Verify code" : "Send sign-in code"}
-        onPress={sent ? verify : sendCode}
-        disabled={busy || !email.includes("@") || (sent && code.length < 6)}
-      />
-    </View>
+        {sent && (
+          <Field
+            label="Magic code (check your inbox ✉️)"
+            placeholder="123456"
+            value={code} onChangeText={setCode} keyboardType="number-pad"
+          />
+        )}
+        <NeonButton
+          big
+          title={busy ? "One sec…" : sent ? "Let me in ✨" : "Send me a magic code"}
+          onPress={sent ? verify : sendCode}
+          disabled={busy || !email.includes("@") || (sent && code.length < 6)}
+        />
+        {sent && (
+          <Text style={styles.resend} onPress={sendCode}>
+            Didn't get it? Send another
+          </Text>
+        )}
+      </GlowCard>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 24, gap: 12 },
-  title: { fontSize: 64, textAlign: "center" },
-  subtitle: { fontSize: 16, textAlign: "center", marginBottom: 24, opacity: 0.7 },
-  input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 12, fontSize: 16 },
+  container: { justifyContent: "center", gap: 10 },
+  logo: { fontSize: 76, textAlign: "center" },
+  center: { textAlign: "center" },
+  card: { marginTop: 18, gap: 16 },
+  resend: { color: colors.aqua, textAlign: "center", fontSize: 14 },
 });

@@ -1,7 +1,5 @@
-import React, { useCallback, useState } from "react";
-import {
-  Button, FlatList, StyleSheet, Text, TouchableOpacity, View,
-} from "react-native";
+import React, { useCallback, useRef, useState } from "react";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import * as Crypto from "expo-crypto";
@@ -11,6 +9,11 @@ import { flushQueue, pendingCount } from "../lib/queue";
 import { rescheduleNudge } from "../lib/notifications";
 import { handleScan, RootStackParamList } from "../lib/scanHandler";
 import { NFC_MOCK_MODE, readTag } from "../lib/nfc";
+import { syncWidgets } from "../widgets/widget-sync";
+import { Chip, GlowCard, NeonButton, Screen } from "../ui/components";
+import { WaterOrb } from "../ui/WaterOrb";
+import { Celebration } from "../ui/Celebration";
+import { colors, mood, type } from "../ui/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Today">;
 
@@ -19,6 +22,8 @@ export default function TodayScreen({ navigation }: Props) {
   const [goal, setGoal] = useState<number | null>(null);
   const [events, setEvents] = useState<EventRow[]>([]);
   const [pending, setPending] = useState(0);
+  const [burstKey, setBurstKey] = useState(0);
+  const prevTotal = useRef(0);
 
   const refresh = useCallback(async () => {
     await flushQueue();
@@ -29,8 +34,16 @@ export default function TodayScreen({ navigation }: Props) {
         .order("occurred_at", { ascending: false }).limit(30),
     ]);
     if (summary?.[0]) {
-      setTotal(Number(summary[0].total));
-      setGoal(summary[0].goal !== null ? Number(summary[0].goal) : null);
+      const newTotal = Number(summary[0].total);
+      const newGoal = summary[0].goal !== null ? Number(summary[0].goal) : null;
+      // Crossed the goal line since last look? Party time.
+      if (newGoal && prevTotal.current < newGoal && newTotal >= newGoal) {
+        setBurstKey((k) => k + 1);
+      }
+      prevTotal.current = newTotal;
+      setTotal(newTotal);
+      setGoal(newGoal);
+      void syncWidgets(newTotal, newGoal);
     }
     setEvents((rows as EventRow[]) ?? []);
     setPending(await pendingCount());
@@ -56,81 +69,95 @@ export default function TodayScreen({ navigation }: Props) {
     try {
       const { shortCode } = await readTag();
       await handleScan(shortCode, "nfc");
-    } catch (e) {
+    } catch {
       // cancelled or unreadable tag — no-op
     }
   };
 
-  const pct = goal ? Math.min(100, Math.round((total / goal) * 100)) : null;
+  const pct = goal ? Math.round((total / goal) * 100) : 0;
+  const drippy = mood(goal ? pct : total > 0 ? 30 : 0);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.hero}>
-        <Text style={styles.total}>{(total / 1000).toFixed(2)}L</Text>
-        <Text style={styles.goal}>
-          {goal ? `of ${(goal / 1000).toFixed(1)}L goal (${pct}%)` : "no goal set — see Settings"}
-        </Text>
-        {goal != null && (
-          <View style={styles.barTrack}>
-            <View style={[styles.barFill, { width: `${pct}%` }]} />
-          </View>
-        )}
-        {pending > 0 && <Text style={styles.pending}>{pending} scan(s) waiting to sync</Text>}
-      </View>
-
-      <View style={styles.row}>
-        <Button title="Scan bottle" onPress={scanInApp} />
-        <Button title="+250ml" onPress={() => manualAdd(250)} />
-        <Button title="+500ml" onPress={() => manualAdd(500)} />
-      </View>
-
-      {(__DEV__ || NFC_MOCK_MODE) && (
-        <TouchableOpacity style={styles.devBtn} onPress={() => handleScan("mock01", "nfc")}>
-          <Text style={styles.devBtnText}>
-            🧪 Simulate sticker scan (bottle "mock01")
-          </Text>
-        </TouchableOpacity>
-      )}
-
+    <Screen>
       <FlatList
         data={events}
         keyExtractor={(e) => e.id}
-        style={styles.list}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <WaterOrb totalMl={total} goalMl={goal} />
+
+            <GlowCard style={styles.mascotCard}>
+              <Text style={styles.mascotFace}>{drippy.face}</Text>
+              <Text style={[type.body, styles.mascotLine]}>{drippy.line}</Text>
+            </GlowCard>
+
+            {pending > 0 && (
+              <Text style={styles.pending}>
+                📶 {pending} sip{pending > 1 ? "s" : ""} saved — will sync when you're online
+              </Text>
+            )}
+
+            <NeonButton big title="📡  Scan my bottle" onPress={scanInApp} />
+
+            <View style={styles.chipRow}>
+              <Chip label="+ Glass 250" onPress={() => manualAdd(250)} />
+              <Chip label="+ Bottle 500" onPress={() => manualAdd(500)} />
+              <Chip label="+ Big 750" onPress={() => manualAdd(750)} />
+            </View>
+
+            {(__DEV__ || NFC_MOCK_MODE) && (
+              <TouchableOpacity style={styles.devBtn} onPress={() => handleScan("mock01", "nfc")}>
+                <Text style={styles.devBtnText}>🧪 Pretend I tapped a sticker</Text>
+              </TouchableOpacity>
+            )}
+
+            <Text style={[type.label, styles.listTitle]}>Today's sips</Text>
+          </View>
+        }
         renderItem={({ item }) => (
           <View style={styles.eventRow}>
-            <Text>{item.source === "manual" ? "✍️" : "📡"} {item.value}ml</Text>
-            <Text style={styles.time}>
+            <Text style={type.body}>
+              {item.source === "manual" ? "✍️" : "📡"}  {item.value}ml
+            </Text>
+            <Text style={type.dim}>
               {new Date(item.occurred_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
             </Text>
           </View>
         )}
-        ListEmptyComponent={<Text style={styles.empty}>Nothing logged yet today.</Text>}
+        ListEmptyComponent={
+          <Text style={[type.dim, styles.empty]}>No sips yet — your bottle misses you 🥺</Text>
+        }
+        ListFooterComponent={
+          <View style={styles.footer}>
+            <NeonButton kind="ghost" title="✨ New sticker" onPress={() => navigation.navigate("RegisterBottle")} />
+            <NeonButton kind="ghost" title="⚙️ Settings" onPress={() => navigation.navigate("Settings")} />
+          </View>
+        }
       />
-
-      <View style={styles.row}>
-        <Button title="Register sticker" onPress={() => navigation.navigate("RegisterBottle")} />
-        <Button title="Settings" onPress={() => navigation.navigate("Settings")} />
-      </View>
-    </View>
+      <Celebration burstKey={burstKey} />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, gap: 16 },
-  hero: { alignItems: "center", gap: 6, paddingVertical: 16 },
-  total: { fontSize: 56, fontWeight: "700" },
-  goal: { fontSize: 16, opacity: 0.7 },
-  barTrack: { width: "100%", height: 12, borderRadius: 6, backgroundColor: "#e0e7ef", marginTop: 8 },
-  barFill: { height: 12, borderRadius: 6, backgroundColor: "#2f80ed" },
-  pending: { fontSize: 12, color: "#b45309", marginTop: 4 },
-  row: { flexDirection: "row", justifyContent: "space-evenly" },
-  devBtn: { backgroundColor: "#fef3c7", padding: 10, borderRadius: 8 },
-  devBtnText: { textAlign: "center" },
-  list: { flex: 1 },
-  eventRow: {
-    flexDirection: "row", justifyContent: "space-between",
-    paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderColor: "#ddd",
+  header: { gap: 16, paddingTop: 8, paddingBottom: 4, alignItems: "stretch" },
+  mascotCard: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14 },
+  mascotFace: { fontSize: 34 },
+  mascotLine: { flex: 1 },
+  pending: { color: colors.gold, textAlign: "center", fontSize: 13 },
+  chipRow: { flexDirection: "row", justifyContent: "center", gap: 10, flexWrap: "wrap" },
+  devBtn: {
+    backgroundColor: "rgba(255,214,107,0.12)", borderColor: "rgba(255,214,107,0.4)",
+    borderWidth: 1, padding: 10, borderRadius: 14,
   },
-  time: { opacity: 0.6 },
-  empty: { textAlign: "center", opacity: 0.5, marginTop: 24 },
+  devBtnText: { textAlign: "center", color: colors.gold },
+  listTitle: { marginTop: 8 },
+  eventRow: {
+    flexDirection: "row", justifyContent: "space-between", alignItems: "center",
+    paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.cardBorder,
+  },
+  empty: { textAlign: "center", marginVertical: 24 },
+  footer: { flexDirection: "row", justifyContent: "space-evenly", marginVertical: 20 },
 });

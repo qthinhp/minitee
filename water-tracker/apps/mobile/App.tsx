@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AppState } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { DarkTheme, NavigationContainer, Theme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import * as Linking from "expo-linking";
@@ -13,6 +13,7 @@ import {
   handleScan, navigationRef, parseShortCode, RootStackParamList,
 } from "./src/lib/scanHandler";
 
+import { colors } from "./src/ui/theme";
 import AuthScreen from "./src/screens/AuthScreen";
 import TodayScreen from "./src/screens/TodayScreen";
 import ScanConfirmScreen from "./src/screens/ScanConfirmScreen";
@@ -21,6 +22,25 @@ import RegisterBottleScreen from "./src/screens/RegisterBottleScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const navTheme: Theme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: colors.bg,
+    card: colors.bg,
+    text: colors.text,
+    primary: colors.aqua,
+    border: "transparent",
+  },
+};
+
+const headerStyle = {
+  headerStyle: { backgroundColor: colors.bgTop },
+  headerTintColor: colors.text,
+  headerShadowVisible: false,
+  headerTitleStyle: { fontWeight: "700" as const },
+};
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -62,23 +82,24 @@ export default function App() {
   if (!booted) return null;
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <StatusBar style="auto" />
-      <Stack.Navigator>
+    <NavigationContainer ref={navigationRef} theme={navTheme}>
+      <StatusBar style="light" />
+      <Stack.Navigator screenOptions={headerStyle}>
         {session ? (
           <>
-            <Stack.Screen name="Today" component={TodayScreen} options={{ title: "Today" }} />
+            <Stack.Screen name="Today" component={TodayScreen}
+              options={{ title: "💧 Today" }} />
             <Stack.Screen name="ScanConfirm" component={ScanConfirmScreen}
-              options={{ title: "Logged", presentation: "modal" }} />
+              options={{ title: "", presentation: "modal" }} />
             <Stack.Screen name="LinkBottle" component={LinkBottleScreen}
               options={{ title: "New bottle" }} />
             <Stack.Screen name="RegisterBottle" component={RegisterBottleScreen}
-              options={{ title: "Register a sticker" }} />
+              options={{ title: "New sticker" }} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
           </>
         ) : (
           <Stack.Screen name="Auth" component={AuthScreen}
-            options={{ title: "Water Tracker" }} />
+            options={{ headerShown: false }} />
         )}
       </Stack.Navigator>
     </NavigationContainer>

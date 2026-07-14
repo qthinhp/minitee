@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { supabase } from "../lib/supabase";
 import { NFC_MOCK_MODE, tagUrl, writeAndLockTag } from "../lib/nfc";
 import type { RootStackParamList } from "../lib/scanHandler";
+import { Chip, Field, GlowCard, NeonButton, Screen } from "../ui/components";
+import { colors, type } from "../ui/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "RegisterBottle">;
 
-// Registration = create bottle row -> write URL to blank sticker -> LOCK it.
+const SIZES = [350, 500, 750, 1000];
+
+// Registration = create bottle -> write URL to blank sticker -> LOCK it.
 // In mock mode (no stickers yet) we still create the bottle and show the URL,
-// so the whole backend flow is exercisable today; writing happens later.
+// so the whole backend flow works today; writing happens when hardware lands.
 export default function RegisterBottleScreen({ navigation }: Props) {
   const [nickname, setNickname] = useState("My bottle");
-  const [capacity, setCapacity] = useState("500");
+  const [capacity, setCapacity] = useState(500);
   const [busy, setBusy] = useState(false);
   const [created, setCreated] = useState<{ shortCode: string; bottleId: string } | null>(null);
 
@@ -20,10 +24,10 @@ export default function RegisterBottleScreen({ navigation }: Props) {
     setBusy(true);
     const { data, error } = await supabase.rpc("register_bottle", {
       p_nickname: nickname.trim(),
-      p_capacity_ml: parseInt(capacity, 10),
+      p_capacity_ml: capacity,
     });
     setBusy(false);
-    if (error) return Alert.alert("Error", error.message);
+    if (error) return Alert.alert("Hmm", error.message);
     setCreated({ shortCode: data.short_code, bottleId: data.id });
   };
 
@@ -35,7 +39,7 @@ export default function RegisterBottleScreen({ navigation }: Props) {
       if (uid) {
         await supabase.from("bottles").update({ nfc_uid: uid }).eq("id", created.bottleId);
       }
-      Alert.alert("Done!", "Sticker written and locked. Stick it on and scan away.");
+      Alert.alert("Sticker ready! 🎉", "Stick it on your bottle and tap away.");
       navigation.goBack();
     } catch (e) {
       Alert.alert("NFC", e instanceof Error ? e.message : String(e));
@@ -45,57 +49,68 @@ export default function RegisterBottleScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       {!created ? (
         <>
-          <Text style={styles.title}>Register a new sticker</Text>
-          <Text style={styles.label}>Bottle name</Text>
-          <TextInput style={styles.input} value={nickname} onChangeText={setNickname} />
-          <Text style={styles.label}>Capacity (ml)</Text>
-          <TextInput
-            style={styles.input} value={capacity} onChangeText={setCapacity}
-            keyboardType="number-pad"
-          />
-          <Button
-            title={busy ? "..." : "Create bottle"} onPress={register}
-            disabled={busy || !nickname.trim() || !(parseInt(capacity, 10) > 0)}
-          />
+          <Text style={styles.emoji}>✨</Text>
+          <Text style={[type.title, styles.center]}>Set up a new sticker</Text>
+          <Text style={[type.dim, styles.center]}>
+            One sticker per bottle. Tap it after every refill and we do the rest.
+          </Text>
+          <GlowCard style={styles.card}>
+            <Field label="Bottle name" value={nickname} onChangeText={setNickname}
+              placeholder="e.g. Desk Bottle" />
+            <Text style={type.label}>How much fits inside?</Text>
+            <View style={styles.chips}>
+              {SIZES.map((ml) => (
+                <Chip key={ml} label={`${ml}ml`} active={capacity === ml}
+                  onPress={() => setCapacity(ml)} />
+              ))}
+            </View>
+            <NeonButton big title={busy ? "Creating…" : "Create my bottle"}
+              onPress={register} disabled={busy || !nickname.trim()} />
+          </GlowCard>
         </>
       ) : (
         <>
-          <Text style={styles.title}>Bottle created ✅</Text>
-          <Text style={styles.label}>Tag URL</Text>
-          <Text selectable style={styles.url}>{tagUrl(created.shortCode)}</Text>
-          {NFC_MOCK_MODE ? (
-            <Text style={styles.hint}>
-              No NFC hardware yet (mock mode). When your stickers arrive, flip
-              NFC_MOCK_MODE off in src/lib/nfc.ts and use "Write to sticker"
-              below — or write this URL with any tag-writer app (e.g. NFC
-              Tools) and enable its lock option. You can also print it as a QR
-              code for the same sticker.
-            </Text>
-          ) : (
-            <Text style={styles.hint}>
-              Hold your phone on the blank sticker. Writing also LOCKS the tag
-              permanently so nobody can rewrite it.
-            </Text>
-          )}
-          <Button
-            title={busy ? "..." : "Write to sticker"} onPress={writeTag}
-            disabled={busy || NFC_MOCK_MODE}
-          />
-          <Button title="Later — back to Today" onPress={() => navigation.goBack()} />
+          <Text style={styles.emoji}>🎉</Text>
+          <Text style={[type.title, styles.center]}>Bottle created!</Text>
+          <GlowCard style={styles.card}>
+            <Text style={type.label}>Its magic link</Text>
+            <Text selectable style={styles.url}>{tagUrl(created.shortCode)}</Text>
+            {NFC_MOCK_MODE ? (
+              <Text style={type.dim}>
+                Your stickers haven't arrived yet — no problem! The bottle
+                already works with the simulate button. When the stickers land,
+                flip NFC_MOCK_MODE off in src/lib/nfc.ts and come back here to
+                write this link onto one. (Or use any NFC-writer app + its
+                lock option, or print it as a QR code.)
+              </Text>
+            ) : (
+              <Text style={type.dim}>
+                Hold your phone flat on the blank sticker. Writing also locks
+                it forever, so nobody can mess with it. 🔒
+              </Text>
+            )}
+            <NeonButton big title={busy ? "Writing…" : "📡 Write to sticker"}
+              onPress={writeTag} disabled={busy || NFC_MOCK_MODE} />
+            <NeonButton kind="ghost" title="Later — take me back"
+              onPress={() => navigation.goBack()} />
+          </GlowCard>
         </>
       )}
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, gap: 10 },
-  title: { fontSize: 22, fontWeight: "600", marginBottom: 8 },
-  label: { fontWeight: "600", marginTop: 8 },
-  input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 12, fontSize: 16 },
-  url: { fontSize: 16, padding: 12, backgroundColor: "#eef2f7", borderRadius: 8 },
-  hint: { opacity: 0.7, lineHeight: 20 },
+  container: { justifyContent: "center", gap: 10 },
+  emoji: { fontSize: 64, textAlign: "center" },
+  center: { textAlign: "center" },
+  card: { marginTop: 14, gap: 14 },
+  chips: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
+  url: {
+    fontSize: 15, padding: 12, borderRadius: 12, color: colors.aqua,
+    backgroundColor: "rgba(57,214,255,0.1)", fontFamily: "monospace" as const,
+  },
 });
