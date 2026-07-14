@@ -1,0 +1,508 @@
+<title>Water Tracker — live app preview</title>
+<style>
+  :root {
+    --page-bg: #E9F1F9;
+    --page-ink: #16283C;
+    --page-dim: #5A7189;
+    --panel: #FFFFFF;
+    --panel-line: #C9DAEA;
+    --aqua: #1C9AD6;
+    /* App-world tokens — fixed, these ARE the app */
+    --app-bg: #050B18; --app-bg-top: #0B1B33;
+    --app-text: #EAF6FF; --app-dim: rgba(234,246,255,.62);
+    --app-aqua: #39D6FF; --app-deep: #2F80ED;
+    --glass: rgba(120,190,255,.08); --glass-line: rgba(120,190,255,.22);
+    --gold: #FFD66B;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --page-bg: #0A1524; --page-ink: #E7F0F9; --page-dim: #8FA6BC;
+            --panel: #101E31; --panel-line: #24405E; --aqua: #39D6FF; }
+  }
+  :root[data-theme="dark"] { --page-bg: #0A1524; --page-ink: #E7F0F9; --page-dim: #8FA6BC;
+            --panel: #101E31; --panel-line: #24405E; --aqua: #39D6FF; }
+  :root[data-theme="light"] { --page-bg: #E9F1F9; --page-ink: #16283C; --page-dim: #5A7189;
+            --panel: #FFFFFF; --panel-line: #C9DAEA; --aqua: #1C9AD6; }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page-bg); color: var(--page-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    padding: 40px 20px 72px;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header.top { margin-bottom: 34px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .18em; font-size: 12px;
+             font-weight: 700; color: var(--aqua); }
+  h1 { font-size: clamp(26px, 4vw, 38px); margin: 8px 0 6px; text-wrap: balance; }
+  .lede { color: var(--page-dim); max-width: 58ch; line-height: 1.55; margin: 0; }
+
+  .stage { display: flex; gap: 44px; align-items: flex-start; flex-wrap: wrap; }
+
+  /* ---------- phone frame ---------- */
+  .phone {
+    width: 375px; height: 738px; border-radius: 54px; flex: none;
+    background: linear-gradient(180deg, var(--app-bg-top), var(--app-bg));
+    border: 9px solid #0D1117; outline: 1px solid var(--panel-line);
+    box-shadow: 0 30px 60px rgba(5,15,30,.35);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    color: var(--app-text);
+  }
+  .notch { width: 118px; height: 26px; background: #0D1117; border-radius: 0 0 16px 16px;
+           margin: 0 auto; flex: none; }
+  .appbar { text-align: center; font-weight: 700; font-size: 17px; padding: 8px 0 2px; flex: none; }
+  .screen { flex: 1; overflow-y: auto; padding: 10px 18px 22px; display: flex;
+            flex-direction: column; gap: 14px; scrollbar-width: none; }
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* ---------- water orb ---------- */
+  .orb-wrap { display: grid; place-items: center; padding: 6px 0 2px; }
+  .orb {
+    width: 258px; height: 258px; border-radius: 50%; position: relative; overflow: hidden;
+    background: var(--glass); border: 1.5px solid var(--glass-line);
+    box-shadow: 0 0 44px rgba(57,214,255,.28), inset 0 0 30px rgba(57,214,255,.06);
+  }
+  .water {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 20%;
+    background: linear-gradient(180deg, var(--app-aqua), var(--app-deep));
+    transition: height 1.1s cubic-bezier(.34,1.4,.4,1);
+  }
+  .wave { position: absolute; top: -15px; left: 0; width: 200%; height: 16px; }
+  .wave svg { display: block; }
+  .w1 { animation: slide 5.2s linear infinite; }
+  .w2 { animation: slide 8.4s linear infinite; opacity: .45; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  .bubble { position: absolute; bottom: 8px; border-radius: 50%;
+            background: rgba(255,255,255,.35); animation: rise 2.8s ease-out infinite; }
+  @keyframes rise {
+    0% { transform: translateY(0); opacity: 0; }
+    12% { opacity: .8; } 80% { opacity: .45; }
+    100% { transform: translateY(-190px); opacity: 0; }
+  }
+  .readout { position: absolute; inset: 0; display: grid; place-content: center;
+             text-align: center; pointer-events: none; }
+  .liters { font-size: 58px; font-weight: 800; letter-spacing: 1px;
+            text-shadow: 0 2px 14px rgba(5,11,24,.55); line-height: 1; }
+  .unit { font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+          font-weight: 600; opacity: .9; margin-top: 4px; }
+  .pctline { font-size: 13px; opacity: .78; margin-top: 6px; }
+
+  .cat-float { position: absolute; right: 12px; width: 84px; height: 84px;
+               bottom: 14%; transition: bottom 1.1s cubic-bezier(.34,1.4,.4,1);
+               animation: bob 3.2s ease-in-out infinite; transform-origin: 50% 80%; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-4deg); }
+                   50% { transform: translateY(-7px) rotate(4deg); } }
+
+  /* ---------- app widgets/cards ---------- */
+  .gcard { background: var(--glass); border: 1px solid var(--glass-line);
+           border-radius: 24px; padding: 12px 16px; display: flex;
+           align-items: center; gap: 12px; }
+  .gcard .line { font-size: 15px; line-height: 1.4; }
+
+  .neon {
+    display: block; width: 100%; border: 0; cursor: pointer; border-radius: 999px;
+    padding: 16px; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: .02em;
+    background: linear-gradient(120deg, var(--app-deep), var(--app-aqua));
+    box-shadow: 0 0 26px rgba(57,214,255,.45);
+    transition: transform .12s ease; font-family: inherit;
+  }
+  .neon:active { transform: scale(.94); }
+  .chiprow { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .chip {
+    border: 1.5px solid var(--glass-line); background: var(--glass); color: var(--app-text);
+    border-radius: 999px; padding: 11px 16px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: transform .12s ease; font-family: inherit;
+  }
+  .chip:active { transform: scale(.92); }
+  .chip.on { background: var(--app-deep); border-color: var(--app-aqua);
+             box-shadow: 0 0 14px rgba(57,214,255,.5); }
+  .devbtn { border: 1px solid rgba(255,214,107,.4); background: rgba(255,214,107,.12);
+            color: var(--gold); border-radius: 14px; padding: 10px; font-size: 14px;
+            cursor: pointer; font-family: inherit; }
+  .sips-label { font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+                font-weight: 700; color: var(--app-dim); margin-top: 4px; }
+  .sip { display: flex; justify-content: space-between; padding: 10px 2px; font-size: 15px;
+         border-bottom: 1px solid rgba(120,190,255,.14); }
+  .sip time { color: var(--app-dim); }
+  .empty { color: var(--app-dim); text-align: center; padding: 14px 0; font-size: 14px; }
+
+  /* ---------- scan-confirm sheet ---------- */
+  .sheet {
+    position: absolute; inset: 0; background: linear-gradient(180deg, var(--app-bg-top), var(--app-bg));
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; padding: 26px; text-align: center;
+    transform: translateY(105%); transition: transform .45s cubic-bezier(.3,1.25,.4,1);
+  }
+  .sheet.open { transform: translateY(0); }
+  .sheet .glug { color: var(--app-aqua); letter-spacing: .3em; text-transform: uppercase;
+                 font-size: 13px; }
+  .sheet .amount { font-size: 46px; font-weight: 800; }
+  .sheet .from { color: var(--app-dim); font-size: 15px; }
+  .sheet .q { font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+              font-weight: 700; color: var(--app-dim); margin-top: 10px; }
+  .sheet .cat-bounce { animation: bounceIn .7s cubic-bezier(.3,1.6,.4,1); }
+  @keyframes bounceIn { from { transform: translateY(-60px) scale(.3); opacity: 0; } }
+  .undo { color: #FF7B93; font-size: 14px; background: none; border: 0; cursor: pointer;
+          font-family: inherit; margin-top: 4px; }
+
+  /* ---------- confetti ---------- */
+  .burst { position: absolute; left: 50%; top: 32%; font-size: 26px; pointer-events: none;
+           animation: fly 1.4s cubic-bezier(.2,.8,.4,1) forwards; }
+  @keyframes fly { to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(.9);
+                        opacity: 0; } }
+
+  /* ---------- annotations & widget mockups ---------- */
+  .side { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 26px; }
+  .note h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .14em; margin: 0 0 10px; }
+  .note ul { margin: 0; padding-left: 18px; color: var(--page-dim); line-height: 1.75; }
+  .note li strong { color: var(--page-ink); font-weight: 600; }
+
+  .widgets { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+  .wcol { display: flex; flex-direction: column; gap: 8px; }
+  .wcap { font-size: 12px; color: var(--page-dim); text-transform: uppercase;
+          letter-spacing: .12em; font-weight: 700; }
+  .android-widget {
+    width: 210px; border-radius: 24px; background: var(--app-bg-top); color: var(--app-text);
+    padding: 16px; text-align: center; border: 1px solid var(--glass-line);
+  }
+  .android-widget .big { font-size: 26px; font-weight: 800; }
+  .android-widget .sub { font-size: 12px; color: #9FC5E8; margin-top: 2px; }
+  .android-widget .dots { color: var(--app-aqua); letter-spacing: 3px; font-size: 15px; margin-top: 6px; }
+  .android-widget .tiny { font-size: 10.5px; color: #7FA8CC; margin-top: 6px; }
+  .ios-widget {
+    width: 150px; height: 150px; border-radius: 34px; color: var(--app-text);
+    background: linear-gradient(180deg, #0A1C33, #050A17); border: 1px solid var(--glass-line);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  }
+  .ios-widget .num { font-size: 19px; font-weight: 800; }
+  .ios-widget .goal { font-size: 10.5px; opacity: .65; }
+  .ring { position: relative; width: 72px; height: 72px; display: grid; place-items: center; }
+  .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+  .ring .face { font-size: 25px; }
+  .lock-widget { width: 74px; height: 74px; border-radius: 50%; background: #131A24;
+                 border: 1px solid #2A3646; display: grid; place-items: center; position: relative; }
+  .lock-widget svg { position: absolute; inset: 4px; transform: rotate(-90deg); }
+  .lock-widget .lw { font-size: 11px; color: #fff; font-weight: 700; text-align: center; }
+
+  footer.pagefoot { margin-top: 44px; color: var(--page-dim); font-size: 13.5px;
+                    line-height: 1.6; max-width: 70ch; }
+  footer.pagefoot code { background: var(--panel); border: 1px solid var(--panel-line);
+                         border-radius: 6px; padding: 1px 6px; font-size: 12.5px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .w1, .w2, .bubble, .cat-float, .burst, .sheet { animation: none; transition: none; }
+  }
+  @media (max-width: 460px) { .phone { transform: scale(.88); transform-origin: top left; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Water Tracker · live preview</div>
+    <h1>Meet Bubbles 🐱 — this is your app now</h1>
+    <p class="lede">A faithful, working mock of the real screens on branch
+    <strong>claude/nfc-water-tracking-app-mlfcz3</strong> — same colors, same cat SVG, same
+    animations as the React Native code. Tap the buttons: the orb fills, Bubbles changes mood,
+    the widgets update, and hitting the goal throws a party.</p>
+  </header>
+
+  <div class="stage">
+    <!-- ============ PHONE: Today screen ============ -->
+    <div class="phone" id="phone">
+      <div class="notch"></div>
+      <div class="appbar">💧 Today</div>
+      <div class="screen">
+        <div class="orb-wrap">
+          <div class="orb" id="orb">
+            <div class="water" id="water">
+              <div class="wave w1" id="wave1"></div>
+              <div class="wave w2" id="wave2"></div>
+              <span class="bubble" style="left:30%;width:8px;height:8px;animation-delay:0s"></span>
+              <span class="bubble" style="left:55%;width:12px;height:12px;animation-delay:.9s"></span>
+              <span class="bubble" style="left:42%;width:6px;height:6px;animation-delay:1.7s"></span>
+              <span class="bubble" style="left:68%;width:9px;height:9px;animation-delay:2.3s"></span>
+            </div>
+            <div class="cat-float" id="orbCat"></div>
+            <div class="readout">
+              <div class="liters" id="liters">0.00</div>
+              <div class="unit">litres today</div>
+              <div class="pctline" id="pctline">0% of goal</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gcard">
+          <span id="moodCat" style="width:58px;height:58px;flex:none"></span>
+          <span class="line" id="moodLine">Bubbles is napping… wake her up with a sip!</span>
+        </div>
+
+        <button class="neon" id="scanBtn">📡&ensp;Scan my bottle</button>
+
+        <div class="chiprow">
+          <button class="chip" data-ml="250">+ Glass 250</button>
+          <button class="chip" data-ml="500">+ Bottle 500</button>
+          <button class="chip" data-ml="750">+ Big 750</button>
+        </div>
+
+        <button class="devbtn" id="mockBtn">🧪 Pretend I tapped a sticker</button>
+
+        <div class="sips-label">Today's sips</div>
+        <div id="sips"><div class="empty">No sips yet — your bottle misses you 🥺</div></div>
+      </div>
+
+      <!-- scan-confirm sheet -->
+      <div class="sheet" id="sheet">
+        <div class="cat-bounce" id="sheetCat" style="width:120px;height:120px"></div>
+        <div class="glug">glug glug glug…</div>
+        <div class="amount" id="sheetAmount">+500ml</div>
+        <div class="from">from Big Blue — nice one! 🎉</div>
+        <div class="q">Drank less than a full bottle?</div>
+        <div class="chiprow" id="fracRow">
+          <button class="chip on" data-f="1">Full bottle</button>
+          <button class="chip" data-f="0.75">¾</button>
+          <button class="chip" data-f="0.5">½</button>
+          <button class="chip" data-f="0.25">¼</button>
+        </div>
+        <button class="neon" style="max-width:230px" id="doneBtn">Done ✓</button>
+        <button class="undo" id="undoBtn">Oops, accidental tap — undo</button>
+      </div>
+    </div>
+
+    <!-- ============ side: notes + widgets ============ -->
+    <div class="side">
+      <div class="note">
+        <h2>Try it</h2>
+        <ul>
+          <li><strong>📡 Scan my bottle</strong> or the 🧪 button — plays the exact
+              sticker-tap flow: sheet slides up, Bubbles bounces in, ¾ / ½ / ¼ chips
+              adjust the amount, undo removes it.</li>
+          <li><strong>+ Glass / + Bottle chips</strong> — quick manual sips.</li>
+          <li>Reach <strong>2.5L</strong> — confetti, party hat, pool party. 🎉</li>
+          <li>Bubbles rides the water line in her swim ring as it rises,
+              and her mood follows your progress: 😴 → 🙂 → ^^ → ✨ → ⭐hat⭐.</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <h2>Home-screen widgets (live)</h2>
+        <div class="widgets">
+          <div class="wcol">
+            <div class="wcap">Android</div>
+            <div class="android-widget">
+              <div class="big" id="awBig">💧 0.0L</div>
+              <div class="sub">of 2.5L goal</div>
+              <div class="dots" id="awDots">○○○○○○○○</div>
+              <div class="tiny" id="awTiny">scan your bottle to add</div>
+            </div>
+          </div>
+          <div class="wcol">
+            <div class="wcap">iOS · home</div>
+            <div class="ios-widget">
+              <div class="ring">
+                <svg width="72" height="72" viewBox="0 0 72 72">
+                  <circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="8"/>
+                  <circle id="iosRing" cx="36" cy="36" r="31" fill="none" stroke="url(#rg)"
+                    stroke-width="8" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="194.8"
+                    style="transition: stroke-dashoffset 1s ease"/>
+                  <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#2F80ED"/><stop offset="1" stop-color="#39D6FF"/>
+                  </linearGradient></defs>
+                </svg>
+                <div class="face" id="iosFace">💧</div>
+              </div>
+              <div class="num" id="iosNum">0.0L</div>
+              <div class="goal">of 2.5L goal</div>
+            </div>
+          </div>
+          <div class="wcol">
+            <div class="wcap">iOS · lock screen</div>
+            <div class="lock-widget">
+              <svg width="66" height="66" viewBox="0 0 66 66">
+                <circle cx="33" cy="33" r="28" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/>
+                <circle id="lockRing" cx="33" cy="33" r="28" fill="none" stroke="#39D6FF"
+                  stroke-width="5" stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9"
+                  style="transition: stroke-dashoffset 1s ease"/>
+              </svg>
+              <div class="lw">💧<br><span id="lockNum">0.0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <h2>Where this lives in the code</h2>
+        <ul>
+          <li><strong>Bubbles the cat</strong> — <code>src/ui/KawaiiCat.tsx</code> (original SVG, five moods)</li>
+          <li><strong>Water orb + waves</strong> — <code>src/ui/WaterOrb.tsx</code></li>
+          <li><strong>Confetti + haptics</strong> — <code>src/ui/Celebration.tsx</code></li>
+          <li><strong>Widgets</strong> — <code>src/widgets/*</code> + <code>targets/widget/*.swift</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer class="pagefoot">
+    This page mirrors the app for preview only — the real UI is React Native and runs from
+    <code>water-tracker/apps/mobile</code> (see the README for the 10-minute setup). On a phone
+    the scan flow starts from a physical NFC tap; here the buttons stand in for the sticker.
+  </footer>
+</div>
+
+<script>
+/* ============ Bubbles the cat — same drawing as KawaiiCat.tsx ============ */
+const OUT="#4A3630", FUR="#FFF6E9", PATCH="#C8CDD6", BLUSH="#FFB3C1", RINGC="#FF8FAB";
+
+function eyes(mood){
+  if (mood==="sleepy") return `<path d="M33 52 Q38 56 43 52" stroke="${OUT}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M57 52 Q62 56 67 52" stroke="${OUT}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+  if (mood==="happy") return `<path d="M33 53 Q38 47 43 53" stroke="${OUT}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <path d="M57 53 Q62 47 67 53" stroke="${OUT}" stroke-width="2.8" fill="none" stroke-linecap="round"/>`;
+  if (mood==="excited") return `<circle cx="38" cy="51" r="5" fill="${OUT}"/><circle cx="62" cy="51" r="5" fill="${OUT}"/>
+    <circle cx="39.8" cy="49.2" r="1.7" fill="#fff"/><circle cx="63.8" cy="49.2" r="1.7" fill="#fff"/>`;
+  if (mood==="party") return `<path d="M38 46l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke="${OUT}" stroke-width="1"/>
+    <path d="M62 46l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke="${OUT}" stroke-width="1"/>`;
+  return `<circle cx="38" cy="51.5" r="3.6" fill="${OUT}"/><circle cx="62" cy="51.5" r="3.6" fill="${OUT}"/>
+    <circle cx="39.2" cy="50.3" r="1.2" fill="#fff"/><circle cx="63.2" cy="50.3" r="1.2" fill="#fff"/>`;
+}
+function mouth(mood){
+  if (mood==="party"||mood==="excited")
+    return `<path d="M45 60 Q50 66 55 60 Q50 63 45 60z" fill="#E56B7F" stroke="${OUT}" stroke-width="1.6"/>`;
+  return `<path d="M44.5 59 Q47.5 62.5 50 59.5 Q52.5 62.5 55.5 59" stroke="${OUT}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+}
+function extras(mood){
+  if (mood==="sleepy") return `<path d="M74 30 h8 l-8 8 h8" stroke="#7FB8E8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if (mood==="party") return `<path d="M42 18 L50 2 L58 18 Q50 23 42 18z" fill="#39D6FF" stroke="${OUT}" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="50" cy="3.5" r="3" fill="#FFB020" stroke="${OUT}" stroke-width="1.4"/>`;
+  return "";
+}
+function catSVG(mood, ring){
+  const body = `
+    <path d="M80 74 Q94 70 90 58 Q88 52 82 54" fill="none" stroke="${OUT}" stroke-width="7" stroke-linecap="round"/>
+    <path d="M80 74 Q94 70 90 58 Q88 52 82 54" fill="none" stroke="${FUR}" stroke-width="4" stroke-linecap="round"/>
+    <path d="M26 34 Q24 16 36 22 Q42 25 44 30z" fill="${FUR}" stroke="${OUT}" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M74 34 Q76 16 64 22 Q58 25 56 30z" fill="${PATCH}" stroke="${OUT}" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M30 30 Q29.5 22 35 25 Q38 27 39 29z" fill="${BLUSH}"/>
+    <path d="M70 30 Q70.5 22 65 25 Q62 27 61 29z" fill="${BLUSH}"/>
+    <ellipse cx="50" cy="58" rx="33" ry="29" fill="${FUR}" stroke="${OUT}" stroke-width="2.8"/>
+    <path d="M56 30 Q74 30 79 46 Q80 51 78 55 Q70 44 58 42 Q54 36 56 30z" fill="${PATCH}" opacity=".85"/>
+    ${eyes(mood)} ${mouth(mood)}
+    <ellipse cx="31" cy="58" rx="4.6" ry="3" fill="${BLUSH}"/>
+    <ellipse cx="69" cy="58" rx="4.6" ry="3" fill="${BLUSH}"/>
+    <path d="M18 54h8 M18 60l8 2" stroke="${OUT}" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M82 54h-8 M82 60l-8 2" stroke="${OUT}" stroke-width="1.6" stroke-linecap="round"/>
+    <ellipse cx="41" cy="83" rx="7.5" ry="5" fill="${FUR}" stroke="${OUT}" stroke-width="2.4"/>
+    <ellipse cx="59" cy="83" rx="7.5" ry="5" fill="${FUR}" stroke="${OUT}" stroke-width="2.4"/>
+    <path d="M39 81.5v3 M43 81.5v3 M57 81.5v3 M61 81.5v3" stroke="${OUT}" stroke-width="1.2" stroke-linecap="round"/>
+    ${extras(mood)}`;
+  if (!ring) return `<svg viewBox="0 0 100 100" width="100%" height="100%">${body}</svg>`;
+  return `<svg viewBox="0 0 100 108" width="100%" height="100%">
+    <ellipse cx="50" cy="86" rx="40" ry="14" fill="${RINGC}" stroke="${OUT}" stroke-width="2.4"/>
+    <ellipse cx="50" cy="84" rx="27" ry="8" fill="#0E2A4A"/>
+    <g transform="translate(4,6) scale(.92)">${body}</g>
+    <path d="M10 86 Q50 110 90 86 Q90 100 50 102 Q10 100 10 86z" fill="${RINGC}" stroke="${OUT}" stroke-width="2.4"/>
+    <ellipse cx="30" cy="92" rx="6" ry="2.6" fill="#fff" opacity=".55"/>
+    <ellipse cx="66" cy="94" rx="7" ry="2.8" fill="#fff" opacity=".55"/>
+  </svg>`;
+}
+
+/* wave strips (two periods, loops on -50%) */
+const waveSVG = `<svg width="516" height="274" viewBox="0 0 516 274" preserveAspectRatio="none">
+  <path d="M0 15 Q32 0 64 15 T129 15 T193 15 T258 15 T322 15 T387 15 T451 15 T516 15 V274 H0 Z" fill="#39D6FF"/></svg>`;
+document.getElementById("wave1").innerHTML = waveSVG;
+document.getElementById("wave2").innerHTML = waveSVG;
+
+/* ============ state & mood engine (mirrors theme.ts) ============ */
+const GOAL = 2500;
+let total = 0, sips = [], sheetMl = 500, sheetBase = 500, celebrated = false;
+
+function mood(pct){
+  if (pct<=0) return {cat:"sleepy", line:"Bubbles is napping… wake her up with a sip!", face:"💧"};
+  if (pct<25) return {cat:"sleepy", line:"Nice start! Little sips, big wins.", face:"🙂"};
+  if (pct<50) return {cat:"content", line:"Warming up! Your future self says thanks.", face:"🙂"};
+  if (pct<75) return {cat:"happy", line:"Halfway there — Bubbles is purring!", face:"😄"};
+  if (pct<100) return {cat:"excited", line:"SO close! One more bottle to glory.", face:"🤩"};
+  if (pct<130) return {cat:"party", line:"GOAL! Bubbles is throwing you a pool party 🎉", face:"🏆"};
+  return {cat:"party", line:"Whale mode unlocked. Legendary hydration.", face:"🐳"};
+}
+
+const $ = (id)=>document.getElementById(id);
+
+function render(){
+  const pct = total/GOAL*100, level = Math.min(1,total/GOAL);
+  const m = mood(pct);
+  $("liters").textContent = (total/1000).toFixed(2);
+  $("pctline").textContent = Math.round(pct) + "% of goal";
+  const hPct = 8 + level*84;
+  $("water").style.height = hPct + "%";
+  $("orbCat").style.bottom = "calc(" + hPct + "% - 30px)";
+  $("orbCat").innerHTML = catSVG(m.cat, true);
+  $("moodCat").innerHTML = catSVG(m.cat, false);
+  $("moodLine").textContent = m.line;
+
+  /* sips list */
+  $("sips").innerHTML = sips.length
+    ? sips.map(s=>`<div class="sip"><span>${s.src} ${s.ml}ml</span><time>${s.t}</time></div>`).join("")
+    : `<div class="empty">No sips yet — your bottle misses you 🥺</div>`;
+
+  /* widgets */
+  const filled = Math.round(level*8);
+  $("awBig").textContent = `${m.face}  ${(total/1000).toFixed(1)}L`;
+  $("awDots").textContent = "●".repeat(filled) + "○".repeat(8-filled);
+  $("awTiny").textContent = pct>=100 ? "goal smashed! 🎉" : "scan your bottle to add";
+  $("iosRing").style.strokeDashoffset = 194.8*(1-level);
+  $("iosFace").textContent = m.face;
+  $("iosNum").textContent = (total/1000).toFixed(1)+"L";
+  $("lockRing").style.strokeDashoffset = 175.9*(1-level);
+  $("lockNum").textContent = (total/1000).toFixed(1);
+
+  /* goal party */
+  if (pct>=100 && !celebrated){ celebrated = true; confetti(); }
+  if (pct<100) celebrated = false;
+}
+
+function now(){ return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); }
+function addSip(ml, src){ total += ml; sips.unshift({ml, src, t: now()}); render(); }
+
+function confetti(){
+  const host = $("phone");
+  "💧🎉✨🐾🌊⭐🐟🎊💦🏆🐾💧".match(/./gu).forEach((e,i,arr)=>{
+    const s = document.createElement("span");
+    s.className = "burst"; s.textContent = e;
+    const a = i/arr.length*Math.PI*2+.4, d = 120+(i%3)*70;
+    s.style.setProperty("--dx", Math.cos(a)*d+"px");
+    s.style.setProperty("--dy", (Math.sin(a)*d+90)+"px");
+    s.style.setProperty("--rot", (i%2? 180:-180)+"deg");
+    host.appendChild(s); setTimeout(()=>s.remove(), 1500);
+  });
+}
+
+/* quick-add chips */
+document.querySelectorAll(".chiprow .chip[data-ml]").forEach(c=>
+  c.addEventListener("click", ()=>addSip(+c.dataset.ml, "✍️")));
+
+/* scan flow: sheet slides up with the sip already logged (fast path) */
+function openSheet(){
+  sheetBase = 500; sheetMl = 500;
+  addSip(sheetMl, "📡");
+  $("sheetAmount").textContent = "+"+sheetMl+"ml";
+  const cat = $("sheetCat"); cat.innerHTML = catSVG("excited", false);
+  cat.style.animation = "none"; void cat.offsetWidth; cat.style.animation = "";
+  document.querySelectorAll("#fracRow .chip").forEach(c=>c.classList.toggle("on", c.dataset.f==="1"));
+  $("sheet").classList.add("open");
+}
+$("scanBtn").addEventListener("click", openSheet);
+$("mockBtn").addEventListener("click", openSheet);
+$("doneBtn").addEventListener("click", ()=>$("sheet").classList.remove("open"));
+$("undoBtn").addEventListener("click", ()=>{
+  total -= sheetMl; sips.shift(); render(); $("sheet").classList.remove("open");
+});
+document.querySelectorAll("#fracRow .chip").forEach(c=>c.addEventListener("click", ()=>{
+  const f = parseFloat(c.dataset.f), newMl = Math.round(sheetBase*f);
+  total += newMl - sheetMl; if (sips[0]) sips[0].ml = newMl;
+  sheetMl = newMl;
+  $("sheetAmount").textContent = "+"+newMl+"ml";
+  document.querySelectorAll("#fracRow .chip").forEach(x=>x.classList.toggle("on", x===c));
+  render();
+}));
+
+render();
+</script>
