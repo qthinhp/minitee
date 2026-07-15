@@ -1,0 +1,31 @@
+name: water-tracker backend tests
+
+on:
+  pull_request:
+    paths:
+      - "water-tracker/supabase/**"
+  push:
+    branches: [main]
+    paths:
+      - "water-tracker/supabase/**"
+
+jobs:
+  sql-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run migration + test suite
+        run: PGURL=postgres://postgres@localhost:5432 ./water-tracker/supabase/test/run-local.sh

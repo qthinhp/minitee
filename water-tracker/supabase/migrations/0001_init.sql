@@ -245,7 +245,11 @@ language sql security definer set search_path = public as $$
       order by g.effective_from desc limit 1);
 $$;
 
-revoke execute on function public.admin_today_total(uuid) from anon, authenticated;
+-- Functions are executable by PUBLIC by default, so revoking only from
+-- anon/authenticated is NOT enough — revoke from public as well.
+-- service_role keeps its explicit default-privilege grant.
+revoke execute on function public.admin_today_total(uuid) from public, anon, authenticated;
+grant execute on function public.admin_today_total(uuid) to service_role;
 
 -- Today's total + goal for the caller, computed in THEIR timezone.
 create or replace function public.today_summary(p_metric_slug text default 'water')

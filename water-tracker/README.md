@@ -23,6 +23,21 @@ confirm → sync).
 4. Copy the project URL + anon key into `apps/mobile/.env`
    (see `.env.example`).
 
+The migration is **tested**: `supabase/test/` contains a shim that recreates
+Supabase's runtime (auth schema, `auth.uid()`, anon/authenticated/service_role
+roles and grants) on vanilla Postgres, plus a suite covering the signup
+trigger, bottle registration, scan idempotency (offline retries can't
+duplicate), per-user sharing, RLS isolation between users, admin-function
+lockdown, and timezone-correct daily totals (UTC+14 edge case). Run it with:
+
+```bash
+./supabase/test/run-local.sh          # needs a local postgres, or:
+PGURL=postgres://user@host:5432 ./supabase/test/run-local.sh
+```
+
+CI runs the same suite on every PR that touches `water-tracker/supabase/`
+(`.github/workflows/water-tracker-backend.yml`).
+
 ### 2. Mobile app
 
 ```bash
