@@ -131,6 +131,7 @@ export default function TodayScreen({ navigation }: Props) {
         }
         ListFooterComponent={
           <View style={styles.footer}>
+            <NeonButton kind="ghost" title="📊 History" onPress={() => navigation.navigate("History")} />
             <NeonButton kind="ghost" title="✨ New sticker" onPress={() => navigation.navigate("RegisterBottle")} />
             <NeonButton kind="ghost" title="⚙️ Settings" onPress={() => navigation.navigate("Settings")} />
           </View>

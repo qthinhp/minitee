@@ -20,6 +20,7 @@ import ScanConfirmScreen from "./src/screens/ScanConfirmScreen";
 import LinkBottleScreen from "./src/screens/LinkBottleScreen";
 import RegisterBottleScreen from "./src/screens/RegisterBottleScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
+import HistoryScreen from "./src/screens/HistoryScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -96,6 +97,8 @@ export default function App() {
             <Stack.Screen name="RegisterBottle" component={RegisterBottleScreen}
               options={{ title: "New sticker" }} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
+            <Stack.Screen name="History" component={HistoryScreen}
+              options={{ title: "📊 Rescue log" }} />
           </>
         ) : (
           <Stack.Screen name="Auth" component={AuthScreen}

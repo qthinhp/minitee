@@ -12,5 +12,7 @@ psql "$PGURL/postgres" -qc "create database $DB"
 trap 'psql "$PGURL/postgres" -qc "drop database if exists $DB with (force)"' EXIT
 
 psql "$PGURL/$DB" -v ON_ERROR_STOP=1 -q -f 00-shim.sql
-psql "$PGURL/$DB" -v ON_ERROR_STOP=1 -q -f ../migrations/0001_init.sql
+for m in ../migrations/*.sql; do
+  psql "$PGURL/$DB" -v ON_ERROR_STOP=1 -q -f "$m"
+done
 psql "$PGURL/$DB" -v ON_ERROR_STOP=1 -f 01-tests.sql

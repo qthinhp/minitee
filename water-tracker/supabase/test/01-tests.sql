@@ -179,5 +179,40 @@ begin
   end;
 end $$;
 
+-- ---------------------------------------------------------------------------
+-- 9. daily_history: zero-filled days, per-day goals, timezone-local buckets
+-- ---------------------------------------------------------------------------
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+
+-- give alice one event YESTERDAY (her tz) so history has a second bucket
+insert into public.events (user_id, metric_type_id, value, occurred_at, source, client_event_id)
+select '11111111-1111-1111-1111-111111111111', id, 2600,
+       (((now() at time zone 'Asia/Ho_Chi_Minh')::date::timestamp - interval '10 hours') at time zone 'Asia/Ho_Chi_Minh'),
+       'manual', 'aaaaaaaa-0000-0000-0000-000000000003'
+from public.metric_types where slug = 'water';
+
+set role authenticated;
+select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', false);
+do $$
+declare rows_count int; today_total numeric; yday_total numeric; oldest_total numeric; g numeric;
+begin
+  select count(*) into rows_count from public.daily_history(7);
+  assert rows_count = 7, format('daily_history(7) should return 7 rows, got %s', rows_count);
+
+  select h.total, h.goal into today_total, g from public.daily_history(7) h
+    order by h.day desc limit 1;
+  assert today_total = 875, format('history today: expected 875, got %s', today_total);
+  assert g = 2500, 'history today goal: expected 2500';
+
+  select h.total into yday_total from public.daily_history(7) h
+    order by h.day desc offset 1 limit 1;
+  assert yday_total = 2600, format('history yesterday: expected 2600, got %s', yday_total);
+
+  select h.total into oldest_total from public.daily_history(7) h
+    order by h.day asc limit 1;
+  assert oldest_total = 0, 'history must zero-fill days with no events';
+end $$;
+
 reset role;
 select 'ALL BACKEND TESTS PASSED ✅' as result;

@@ -16,6 +16,7 @@ export type RootStackParamList = {
   LinkBottle: { shortCode: string };
   RegisterBottle: undefined;
   Settings: undefined;
+  History: undefined;
 };
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
