@@ -29,18 +29,18 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     padding: 40px 20px 72px;
   }
-  .wrap { max-width: 1040px; margin: 0 auto; }
+  .wrap { max-width: 1060px; margin: 0 auto; }
   header.top { margin-bottom: 34px; }
   .eyebrow { text-transform: uppercase; letter-spacing: .18em; font-size: 12px;
              font-weight: 700; color: var(--aqua); }
   h1 { font-size: clamp(26px, 4vw, 38px); margin: 8px 0 6px; text-wrap: balance; }
-  .lede { color: var(--page-dim); max-width: 58ch; line-height: 1.55; margin: 0; }
+  .lede { color: var(--page-dim); max-width: 60ch; line-height: 1.55; margin: 0; }
 
   .stage { display: flex; gap: 44px; align-items: flex-start; flex-wrap: wrap; }
 
   /* ---------- phone frame ---------- */
   .phone {
-    width: 375px; height: 738px; border-radius: 54px; flex: none;
+    width: 375px; height: 760px; border-radius: 54px; flex: none;
     background: linear-gradient(180deg, var(--app-bg-top), var(--app-bg));
     border: 9px solid #0D1117; outline: 1px solid var(--panel-line);
     box-shadow: 0 30px 60px rgba(5,15,30,.35);
@@ -51,57 +51,28 @@
   .notch { width: 118px; height: 26px; background: #0D1117; border-radius: 0 0 16px 16px;
            margin: 0 auto; flex: none; }
   .appbar { text-align: center; font-weight: 700; font-size: 17px; padding: 8px 0 2px; flex: none; }
-  .screen { flex: 1; overflow-y: auto; padding: 10px 18px 22px; display: flex;
-            flex-direction: column; gap: 14px; scrollbar-width: none; }
+  .screen { flex: 1; overflow-y: auto; padding: 6px 18px 22px; display: flex;
+            flex-direction: column; gap: 13px; scrollbar-width: none; }
   .screen::-webkit-scrollbar { display: none; }
 
-  /* ---------- water orb ---------- */
-  .orb-wrap { display: grid; place-items: center; padding: 6px 0 2px; }
-  .orb {
-    width: 258px; height: 258px; border-radius: 50%; position: relative; overflow: hidden;
-    background: var(--glass); border: 1.5px solid var(--glass-line);
-    box-shadow: 0 0 44px rgba(57,214,255,.28), inset 0 0 30px rgba(57,214,255,.06);
-  }
-  .water {
-    position: absolute; left: 0; right: 0; bottom: 0; height: 20%;
-    background: linear-gradient(180deg, var(--app-aqua), var(--app-deep));
-    transition: height 1.1s cubic-bezier(.34,1.4,.4,1);
-  }
-  .wave { position: absolute; top: -15px; left: 0; width: 200%; height: 16px; }
-  .wave svg { display: block; }
-  .w1 { animation: slide 5.2s linear infinite; }
-  .w2 { animation: slide 8.4s linear infinite; opacity: .45; }
-  @keyframes slide { to { transform: translateX(-50%); } }
-  .bubble { position: absolute; bottom: 8px; border-radius: 50%;
-            background: rgba(255,255,255,.35); animation: rise 2.8s ease-out infinite; }
-  @keyframes rise {
-    0% { transform: translateY(0); opacity: 0; }
-    12% { opacity: .8; } 80% { opacity: .45; }
-    100% { transform: translateY(-190px); opacity: 0; }
-  }
-  .readout { position: absolute; inset: 0; display: grid; place-content: center;
-             text-align: center; pointer-events: none; }
-  .liters { font-size: 58px; font-weight: 800; letter-spacing: 1px;
-            text-shadow: 0 2px 14px rgba(5,11,24,.55); line-height: 1; }
-  .unit { font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
-          font-weight: 600; opacity: .9; margin-top: 4px; }
-  .pctline { font-size: 13px; opacity: .78; margin-top: 6px; }
+  /* ---------- bottle scene ---------- */
+  .bottle-wrap { display: grid; place-items: center; }
+  .bottle-wrap svg { display: block; }
+  #waterG, #surfaceG, #catG { transition: transform 1s cubic-bezier(.34,1.3,.4,1); }
+  #catBob { animation: bob 3.4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-4px); } }
+  .readout { text-align: center; margin-top: -6px; }
+  .readout .liters { font-size: 34px; font-weight: 800; letter-spacing: 1px; }
+  .readout .pct { font-size: 13.5px; color: var(--app-dim); margin-top: 2px; }
 
-  .cat-float { position: absolute; right: 12px; width: 84px; height: 84px;
-               bottom: 14%; transition: bottom 1.1s cubic-bezier(.34,1.4,.4,1);
-               animation: bob 3.2s ease-in-out infinite; transform-origin: 50% 80%; }
-  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-4deg); }
-                   50% { transform: translateY(-7px) rotate(4deg); } }
-
-  /* ---------- app widgets/cards ---------- */
+  /* ---------- app cards/buttons ---------- */
   .gcard { background: var(--glass); border: 1px solid var(--glass-line);
-           border-radius: 24px; padding: 12px 16px; display: flex;
+           border-radius: 22px; padding: 10px 14px; display: flex;
            align-items: center; gap: 12px; }
-  .gcard .line { font-size: 15px; line-height: 1.4; }
-
+  .gcard .line { font-size: 14.5px; line-height: 1.4; }
   .neon {
     display: block; width: 100%; border: 0; cursor: pointer; border-radius: 999px;
-    padding: 16px; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: .02em;
+    padding: 15px; font-size: 17px; font-weight: 700; color: #fff; letter-spacing: .02em;
     background: linear-gradient(120deg, var(--app-deep), var(--app-aqua));
     box-shadow: 0 0 26px rgba(57,214,255,.45);
     transition: transform .12s ease; font-family: inherit;
@@ -110,52 +81,58 @@
   .chiprow { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .chip {
     border: 1.5px solid var(--glass-line); background: var(--glass); color: var(--app-text);
-    border-radius: 999px; padding: 11px 16px; font-size: 15px; font-weight: 600;
+    border-radius: 999px; padding: 10px 14px; font-size: 14px; font-weight: 600;
     cursor: pointer; transition: transform .12s ease; font-family: inherit;
   }
   .chip:active { transform: scale(.92); }
   .chip.on { background: var(--app-deep); border-color: var(--app-aqua);
              box-shadow: 0 0 14px rgba(57,214,255,.5); }
   .devbtn { border: 1px solid rgba(255,214,107,.4); background: rgba(255,214,107,.12);
-            color: var(--gold); border-radius: 14px; padding: 10px; font-size: 14px;
+            color: var(--gold); border-radius: 14px; padding: 9px; font-size: 13.5px;
             cursor: pointer; font-family: inherit; }
-  .sips-label { font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
-                font-weight: 700; color: var(--app-dim); margin-top: 4px; }
-  .sip { display: flex; justify-content: space-between; padding: 10px 2px; font-size: 15px;
+  .sips-label { font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
+                font-weight: 700; color: var(--app-dim); margin-top: 2px; }
+  .sip { display: flex; justify-content: space-between; padding: 9px 2px; font-size: 14.5px;
          border-bottom: 1px solid rgba(120,190,255,.14); }
   .sip time { color: var(--app-dim); }
-  .empty { color: var(--app-dim); text-align: center; padding: 14px 0; font-size: 14px; }
+  .empty { color: var(--app-dim); text-align: center; padding: 12px 0; font-size: 13.5px; }
 
   /* ---------- scan-confirm sheet ---------- */
   .sheet {
     position: absolute; inset: 0; background: linear-gradient(180deg, var(--app-bg-top), var(--app-bg));
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 12px; padding: 26px; text-align: center;
+    gap: 11px; padding: 26px; text-align: center;
     transform: translateY(105%); transition: transform .45s cubic-bezier(.3,1.25,.4,1);
   }
   .sheet.open { transform: translateY(0); }
   .sheet .glug { color: var(--app-aqua); letter-spacing: .3em; text-transform: uppercase;
                  font-size: 13px; }
-  .sheet .amount { font-size: 46px; font-weight: 800; }
+  .sheet .amount { font-size: 44px; font-weight: 800; }
   .sheet .from { color: var(--app-dim); font-size: 15px; }
-  .sheet .q { font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
-              font-weight: 700; color: var(--app-dim); margin-top: 10px; }
+  .sheet .q { font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
+              font-weight: 700; color: var(--app-dim); margin-top: 8px; }
   .sheet .cat-bounce { animation: bounceIn .7s cubic-bezier(.3,1.6,.4,1); }
   @keyframes bounceIn { from { transform: translateY(-60px) scale(.3); opacity: 0; } }
   .undo { color: #FF7B93; font-size: 14px; background: none; border: 0; cursor: pointer;
-          font-family: inherit; margin-top: 4px; }
+          font-family: inherit; margin-top: 2px; }
 
   /* ---------- confetti ---------- */
   .burst { position: absolute; left: 50%; top: 32%; font-size: 26px; pointer-events: none;
-           animation: fly 1.4s cubic-bezier(.2,.8,.4,1) forwards; }
+           animation: fly 1.4s cubic-bezier(.2,.8,.4,1) forwards; z-index: 5; }
   @keyframes fly { to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(.9);
                         opacity: 0; } }
 
-  /* ---------- annotations & widget mockups ---------- */
+  /* ---------- side column ---------- */
   .side { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 26px; }
   .note h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .14em; margin: 0 0 10px; }
   .note ul { margin: 0; padding-left: 18px; color: var(--page-dim); line-height: 1.75; }
   .note li strong { color: var(--page-ink); font-weight: 600; }
+
+  .iconrow { display: flex; gap: 18px; align-items: center; }
+  .appicon { width: 108px; height: 108px; border-radius: 26px; overflow: hidden; flex: none;
+             box-shadow: 0 10px 24px rgba(5,15,30,.25); }
+  .appicon svg { display: block; width: 100%; height: 100%; }
+  .iconcap { color: var(--page-dim); font-size: 14px; line-height: 1.6; }
 
   .widgets { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
   .wcol { display: flex; flex-direction: column; gap: 8px; }
@@ -177,7 +154,7 @@
   .ios-widget .num { font-size: 19px; font-weight: 800; }
   .ios-widget .goal { font-size: 10.5px; opacity: .65; }
   .ring { position: relative; width: 72px; height: 72px; display: grid; place-items: center; }
-  .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+  .ring svg.arc { position: absolute; inset: 0; transform: rotate(-90deg); }
   .ring .face { font-size: 25px; }
   .lock-widget { width: 74px; height: 74px; border-radius: 50%; background: #131A24;
                  border: 1px solid #2A3646; display: grid; place-items: center; position: relative; }
@@ -190,19 +167,19 @@
                          border-radius: 6px; padding: 1px 6px; font-size: 12.5px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .w1, .w2, .bubble, .cat-float, .burst, .sheet { animation: none; transition: none; }
+    #catBob, .burst, .sheet, #waterG, #surfaceG, #catG { animation: none; transition: none; }
   }
   @media (max-width: 460px) { .phone { transform: scale(.88); transform-origin: top left; } }
 </style>
 
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">Water Tracker · live preview</div>
-    <h1>Meet Bubbles 🐱 — this is your app now</h1>
-    <p class="lede">A faithful, working mock of the real screens on branch
-    <strong>claude/nfc-water-tracking-app-mlfcz3</strong> — same colors, same cat SVG, same
-    animations as the React Native code. Tap the buttons: the orb fills, Bubbles changes mood,
-    the widgets update, and hitting the goal throws a party.</p>
+    <div class="eyebrow">Water Tracker · live preview · v2 "save the cat"</div>
+    <h1>Bubbles is in the bottle — drink to save her 🐱</h1>
+    <p class="lede">Redesigned to your reference art: flat sticker colors, thick outlines, and the
+    chubby tan cat floating inside the bottle where the frog was. She starts stranded at the
+    bottom; every sip raises the water and floats her toward the cap. This mock runs the same
+    artwork and logic as the app code — tap everything.</p>
   </header>
 
   <div class="stage">
@@ -211,28 +188,39 @@
       <div class="notch"></div>
       <div class="appbar">💧 Today</div>
       <div class="screen">
-        <div class="orb-wrap">
-          <div class="orb" id="orb">
-            <div class="water" id="water">
-              <div class="wave w1" id="wave1"></div>
-              <div class="wave w2" id="wave2"></div>
-              <span class="bubble" style="left:30%;width:8px;height:8px;animation-delay:0s"></span>
-              <span class="bubble" style="left:55%;width:12px;height:12px;animation-delay:.9s"></span>
-              <span class="bubble" style="left:42%;width:6px;height:6px;animation-delay:1.7s"></span>
-              <span class="bubble" style="left:68%;width:9px;height:9px;animation-delay:2.3s"></span>
-            </div>
-            <div class="cat-float" id="orbCat"></div>
-            <div class="readout">
-              <div class="liters" id="liters">0.00</div>
-              <div class="unit">litres today</div>
-              <div class="pctline" id="pctline">0% of goal</div>
-            </div>
-          </div>
+        <div class="bottle-wrap">
+          <svg width="196" height="303" viewBox="0 0 220 340" id="bottleSvg">
+            <defs>
+              <clipPath id="bclip"><path d="M82 48 L82 62 C82 74 74 80 63 88 C40 104 34 120 34 142 L34 200 C34 210 39 214 39 222 C39 230 34 234 34 244 L34 272 C34 294 48 304 68 306 L152 306 C172 304 186 294 186 272 L186 244 C186 234 181 230 181 222 C181 214 186 210 186 200 L186 142 C186 120 180 104 157 88 C146 80 138 74 138 62 L138 48 Z"/></clipPath>
+            </defs>
+            <path d="M82 48 L82 62 C82 74 74 80 63 88 C40 104 34 120 34 142 L34 200 C34 210 39 214 39 222 C39 230 34 234 34 244 L34 272 C34 294 48 304 68 306 L152 306 C172 304 186 294 186 272 L186 244 C186 234 181 230 181 222 C181 214 186 210 186 200 L186 142 C186 120 180 104 157 88 C146 80 138 74 138 62 L138 48 Z" fill="#fff"/>
+            <g clip-path="url(#bclip)">
+              <g id="waterG">
+                <rect x="0" y="122" width="220" height="400" fill="#55A8F2"/>
+                <circle cx="62" cy="168" r="4" fill="#fff" opacity=".4"/>
+                <circle cx="150" cy="200" r="5" fill="#fff" opacity=".35"/>
+                <circle cx="84" cy="232" r="3.4" fill="#fff" opacity=".3"/>
+                <circle cx="140" cy="262" r="4.4" fill="#fff" opacity=".28"/>
+              </g>
+              <g id="surfaceG">
+                <ellipse cx="110" cy="122" rx="80" ry="11" fill="#8FCBF8" stroke="#1F1B16" stroke-width="3"/>
+              </g>
+              <g id="catG"><g id="catBob"><g id="catArt"><!-- peeking cat injected by JS --></g></g></g>
+            </g>
+            <path d="M82 48 L82 62 C82 74 74 80 63 88 C40 104 34 120 34 142 L34 200 C34 210 39 214 39 222 C39 230 34 234 34 244 L34 272 C34 294 48 304 68 306 L152 306 C172 304 186 294 186 272 L186 244 C186 234 181 230 181 222 C181 214 186 210 186 200 L186 142 C186 120 180 104 157 88 C146 80 138 74 138 62 L138 48 Z" fill="none" stroke="#1F1B16" stroke-width="7" stroke-linejoin="round"/>
+            <rect x="74" y="38" width="72" height="11" rx="5.5" fill="#fff" stroke="#1F1B16" stroke-width="5"/>
+            <rect x="68" y="6" width="84" height="34" rx="10" fill="#5BD1DB" stroke="#1F1B16" stroke-width="6"/>
+            <path d="M84 13 v20 M97 13 v20 M110 13 v20 M123 13 v20 M136 13 v20" stroke="#1F1B16" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+          </svg>
+        </div>
+        <div class="readout">
+          <div class="liters" id="liters">0.00L</div>
+          <div class="pct" id="pctline">0% of the way to saving Bubbles</div>
         </div>
 
         <div class="gcard">
-          <span id="moodCat" style="width:58px;height:58px;flex:none"></span>
-          <span class="line" id="moodLine">Bubbles is napping… wake her up with a sip!</span>
+          <span id="moodCat" style="width:54px;height:54px;flex:none"></span>
+          <span class="line" id="moodLine"></span>
         </div>
 
         <button class="neon" id="scanBtn">📡&ensp;Scan my bottle</button>
@@ -246,15 +234,15 @@
         <button class="devbtn" id="mockBtn">🧪 Pretend I tapped a sticker</button>
 
         <div class="sips-label">Today's sips</div>
-        <div id="sips"><div class="empty">No sips yet — your bottle misses you 🥺</div></div>
+        <div id="sips"><div class="empty">No sips yet — Bubbles is counting on you 🥺</div></div>
       </div>
 
       <!-- scan-confirm sheet -->
       <div class="sheet" id="sheet">
-        <div class="cat-bounce" id="sheetCat" style="width:120px;height:120px"></div>
+        <div class="cat-bounce" id="sheetCat" style="width:150px;height:136px"></div>
         <div class="glug">glug glug glug…</div>
         <div class="amount" id="sheetAmount">+500ml</div>
-        <div class="from">from Big Blue — nice one! 🎉</div>
+        <div class="from">from Big Blue — Bubbles floats a little higher! 🎉</div>
         <div class="q">Drank less than a full bottle?</div>
         <div class="chiprow" id="fracRow">
           <button class="chip on" data-f="1">Full bottle</button>
@@ -267,18 +255,27 @@
       </div>
     </div>
 
-    <!-- ============ side: notes + widgets ============ -->
+    <!-- ============ side: icon, notes, widgets ============ -->
     <div class="side">
+      <div class="note">
+        <h2>The app icon</h2>
+        <div class="iconrow">
+          <div class="appicon" id="appIcon"></div>
+          <p class="iconcap">Bubbles peeking out of the bottle — shipped as
+          <strong>assets/icon.png</strong> (iOS + Android, adaptive icon included),
+          rendered from the same SVG artwork as the app.</p>
+        </div>
+      </div>
+
       <div class="note">
         <h2>Try it</h2>
         <ul>
-          <li><strong>📡 Scan my bottle</strong> or the 🧪 button — plays the exact
-              sticker-tap flow: sheet slides up, Bubbles bounces in, ¾ / ½ / ¼ chips
-              adjust the amount, undo removes it.</li>
+          <li><strong>📡 Scan my bottle</strong> or 🧪 — the sticker-tap flow: sheet slides up,
+              Bubbles chugs her little bottle, ¾ / ½ / ¼ chips adjust, undo removes it.</li>
           <li><strong>+ Glass / + Bottle chips</strong> — quick manual sips.</li>
-          <li>Reach <strong>2.5L</strong> — confetti, party hat, pool party. 🎉</li>
-          <li>Bubbles rides the water line in her swim ring as it rises,
-              and her mood follows your progress: 😴 → 🙂 → ^^ → ✨ → ⭐hat⭐.</li>
+          <li>Watch the bottle: Bubbles starts <strong>worried at the bottom</strong> (sweat drop!),
+              floats up with each sip, and gets <strong>star eyes + a party hat</strong> at 2.5L —
+              with confetti. 🎉</li>
         </ul>
       </div>
 
@@ -288,17 +285,17 @@
           <div class="wcol">
             <div class="wcap">Android</div>
             <div class="android-widget">
-              <div class="big" id="awBig">💧 0.0L</div>
+              <div class="big" id="awBig">🆘 0.0L</div>
               <div class="sub">of 2.5L goal</div>
               <div class="dots" id="awDots">○○○○○○○○</div>
-              <div class="tiny" id="awTiny">scan your bottle to add</div>
+              <div class="tiny" id="awTiny">fill the bottle · save the cat</div>
             </div>
           </div>
           <div class="wcol">
             <div class="wcap">iOS · home</div>
             <div class="ios-widget">
               <div class="ring">
-                <svg width="72" height="72" viewBox="0 0 72 72">
+                <svg class="arc" width="72" height="72" viewBox="0 0 72 72">
                   <circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="8"/>
                   <circle id="iosRing" cx="36" cy="36" r="31" fill="none" stroke="url(#rg)"
                     stroke-width="8" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="194.8"
@@ -307,7 +304,7 @@
                     <stop offset="0" stop-color="#2F80ED"/><stop offset="1" stop-color="#39D6FF"/>
                   </linearGradient></defs>
                 </svg>
-                <div class="face" id="iosFace">💧</div>
+                <div class="face" id="iosFace">🆘</div>
               </div>
               <div class="num" id="iosNum">0.0L</div>
               <div class="goal">of 2.5L goal</div>
@@ -327,101 +324,144 @@
           </div>
         </div>
       </div>
-
-      <div class="note">
-        <h2>Where this lives in the code</h2>
-        <ul>
-          <li><strong>Bubbles the cat</strong> — <code>src/ui/KawaiiCat.tsx</code> (original SVG, five moods)</li>
-          <li><strong>Water orb + waves</strong> — <code>src/ui/WaterOrb.tsx</code></li>
-          <li><strong>Confetti + haptics</strong> — <code>src/ui/Celebration.tsx</code></li>
-          <li><strong>Widgets</strong> — <code>src/widgets/*</code> + <code>targets/widget/*.swift</code></li>
-        </ul>
-      </div>
     </div>
   </div>
 
   <footer class="pagefoot">
-    This page mirrors the app for preview only — the real UI is React Native and runs from
-    <code>water-tracker/apps/mobile</code> (see the README for the 10-minute setup). On a phone
-    the scan flow starts from a physical NFC tap; here the buttons stand in for the sticker.
+    Preview only — the real UI is React Native in <code>water-tracker/apps/mobile</code>
+    (bottle: <code>src/ui/BottleScene.tsx</code>, cat: <code>src/ui/KawaiiCat.tsx</code>,
+    icon: <code>assets/icon.svg</code>). All artwork is original, drawn in the flat
+    sticker style of your references. On a phone the scan starts from a physical NFC tap;
+    here the buttons stand in for the sticker.
   </footer>
 </div>
 
 <script>
-/* ============ Bubbles the cat — same drawing as KawaiiCat.tsx ============ */
-const OUT="#4A3630", FUR="#FFF6E9", PATCH="#C8CDD6", BLUSH="#FFB3C1", RINGC="#FF8FAB";
+/* ===== shared palette (mirrors KawaiiCat.tsx) ===== */
+const INK="#1F1B16", TAN="#F6C583", DARK="#DBA55E", PINK="#F08AA0", AQUA="#5BD1DB";
 
-function eyes(mood){
-  if (mood==="sleepy") return `<path d="M33 52 Q38 56 43 52" stroke="${OUT}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-    <path d="M57 52 Q62 56 67 52" stroke="${OUT}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
-  if (mood==="happy") return `<path d="M33 53 Q38 47 43 53" stroke="${OUT}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-    <path d="M57 53 Q62 47 67 53" stroke="${OUT}" stroke-width="2.8" fill="none" stroke-linecap="round"/>`;
-  if (mood==="excited") return `<circle cx="38" cy="51" r="5" fill="${OUT}"/><circle cx="62" cy="51" r="5" fill="${OUT}"/>
-    <circle cx="39.8" cy="49.2" r="1.7" fill="#fff"/><circle cx="63.8" cy="49.2" r="1.7" fill="#fff"/>`;
-  if (mood==="party") return `<path d="M38 46l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke="${OUT}" stroke-width="1"/>
-    <path d="M62 46l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke="${OUT}" stroke-width="1"/>`;
-  return `<circle cx="38" cy="51.5" r="3.6" fill="${OUT}"/><circle cx="62" cy="51.5" r="3.6" fill="${OUT}"/>
-    <circle cx="39.2" cy="50.3" r="1.2" fill="#fff"/><circle cx="63.2" cy="50.3" r="1.2" fill="#fff"/>`;
+/* ===== peeking cat (inside the bottle), drawn relative to y=0 = water line ===== */
+function peekCat(m){
+  const happy = (m==="happy"||m==="excited"||m==="party");
+  const eyes = happy
+    ? `<path d="M92 -14 Q96.5 -19 101 -14" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+       <path d="M119 -14 Q123.5 -19 128 -14" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+    : `<circle cx="96.5" cy="-15" r="3" fill="${INK}"/><circle cx="123.5" cy="-15" r="3" fill="${INK}"/>`;
+  const mouth = (m==="party"||m==="excited")
+    ? `<ellipse cx="110" cy="-5.5" rx="3.4" ry="4" fill="${PINK}" stroke="${INK}" stroke-width="1.6"/>`
+    : (m==="worried")
+    ? `<path d="M105 -6 Q108 -8.5 110 -6 Q112 -3.5 115 -6" stroke="${INK}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`
+    : `<path d="M107 -6 Q110 -4 113 -6" stroke="${INK}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  const extra = (m==="worried")
+    ? `<path d="M136 -22 Q140 -16 136 -13 Q132 -16 136 -22z" fill="#8FD3F4" stroke="${INK}" stroke-width="1.5"/>`
+    : (m==="party")
+    ? `<path d="M100 -42 L110 -58 L120 -42 Q110 -37 100 -42z" fill="${AQUA}" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
+       <circle cx="110" cy="-57" r="3" fill="#FFB020" stroke="${INK}" stroke-width="1.4"/>`
+    : "";
+  return `
+    <path d="M92 26 q0 14 8 16 M128 26 q0 14 -8 16" stroke="${INK}" stroke-width="7" stroke-linecap="round" fill="none" opacity=".85"/>
+    <path d="M92 26 q0 14 8 16 M128 26 q0 14 -8 16" stroke="${TAN}" stroke-width="3.6" stroke-linecap="round" fill="none" opacity=".85"/>
+    <path d="M85 -26 L88 -44 L102 -32z" fill="${TAN}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M135 -26 L132 -44 L118 -32z" fill="${TAN}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="80" y="-34" width="60" height="44" rx="20" fill="${TAN}" stroke="${INK}" stroke-width="3.4"/>
+    <path d="M104 -33 v7 M110 -34 v9 M116 -33 v7" stroke="${DARK}" stroke-width="2.8" stroke-linecap="round"/>
+    ${eyes} ${mouth} ${extra}
+    <rect x="83" y="2" width="15" height="9" rx="4.5" fill="${TAN}" stroke="${INK}" stroke-width="2.6"/>
+    <rect x="122" y="2" width="15" height="9" rx="4.5" fill="${TAN}" stroke="${INK}" stroke-width="2.6"/>`;
 }
-function mouth(mood){
-  if (mood==="party"||mood==="excited")
-    return `<path d="M45 60 Q50 66 55 60 Q50 63 45 60z" fill="#E56B7F" stroke="${OUT}" stroke-width="1.6"/>`;
-  return `<path d="M44.5 59 Q47.5 62.5 50 59.5 Q52.5 62.5 55.5 59" stroke="${OUT}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+
+/* ===== full-body cat (mascot card) ===== */
+function fullCat(m){
+  const eyes = (m==="happy")
+    ? `<path d="M35 52 Q40 46 45 52" stroke="${INK}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+       <path d="M57 52 Q62 46 67 52" stroke="${INK}" stroke-width="2.8" fill="none" stroke-linecap="round"/>`
+    : (m==="excited")
+    ? `<circle cx="40" cy="50" r="4.4" fill="${INK}"/><circle cx="62" cy="50" r="4.4" fill="${INK}"/>
+       <circle cx="41.6" cy="48.4" r="1.5" fill="#fff"/><circle cx="63.6" cy="48.4" r="1.5" fill="#fff"/>`
+    : (m==="party")
+    ? `<path d="M40 45l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke="${INK}" stroke-width="1"/>
+       <path d="M62 45l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke="${INK}" stroke-width="1"/>`
+    : `<circle cx="40" cy="50.5" r="3.4" fill="${INK}"/><circle cx="62" cy="50.5" r="3.4" fill="${INK}"/>`;
+  const mouth = (m==="excited"||m==="party")
+    ? `<path d="M46 58 Q51 65 56 58 Q51 61 46 58z" fill="${PINK}" stroke="${INK}" stroke-width="1.8"/>`
+    : (m==="worried")
+    ? `<path d="M46 60 Q49 57.5 51 60 Q53 62.5 56 60" stroke="${INK}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`
+    : `<path d="M48 59 Q51 61.5 54 59" stroke="${INK}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  const extra = (m==="worried")
+    ? `<path d="M72 40 Q76 46 72 49 Q68 46 72 40z" fill="#8FD3F4" stroke="${INK}" stroke-width="1.6"/>`
+    : (m==="party")
+    ? `<path d="M42 20 L51 4 L60 20 Q51 25 42 20z" fill="${AQUA}" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
+       <circle cx="51" cy="5" r="3" fill="#FFB020" stroke="${INK}" stroke-width="1.4"/>` : "";
+  return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+    <path d="M82 76 Q97 74 94 60 Q93 54 87 55" fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round"/>
+    <path d="M82 76 Q97 74 94 60 Q93 54 87 55" fill="none" stroke="${TAN}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M92 70 l5 -1 M93 63 l5 -1.5" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>
+    <path d="M27 36 L31 18 L45 29z" fill="${TAN}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M75 36 L71 18 L57 29z" fill="${TAN}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="20" y="26" width="62" height="64" rx="26" fill="${TAN}" stroke="${INK}" stroke-width="3.4"/>
+    <path d="M45 27 v8 M51 26 v10 M57 27 v8" stroke="${DARK}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M22 56 l7 2 M22 63 l7 1" stroke="${DARK}" stroke-width="2.6" stroke-linecap="round"/>
+    ${eyes} ${mouth}
+    <path d="M34 89 q3 5 8 0 M58 89 q3 5 8 0" stroke="${INK}" stroke-width="3" fill="${TAN}" stroke-linecap="round"/>
+    ${extra}</svg>`;
 }
-function extras(mood){
-  if (mood==="sleepy") return `<path d="M74 30 h8 l-8 8 h8" stroke="#7FB8E8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
-  if (mood==="party") return `<path d="M42 18 L50 2 L58 18 Q50 23 42 18z" fill="#39D6FF" stroke="${OUT}" stroke-width="2" stroke-linejoin="round"/>
-    <circle cx="50" cy="3.5" r="3" fill="#FFB020" stroke="${OUT}" stroke-width="1.4"/>`;
-  return "";
-}
-function catSVG(mood, ring){
-  const body = `
-    <path d="M80 74 Q94 70 90 58 Q88 52 82 54" fill="none" stroke="${OUT}" stroke-width="7" stroke-linecap="round"/>
-    <path d="M80 74 Q94 70 90 58 Q88 52 82 54" fill="none" stroke="${FUR}" stroke-width="4" stroke-linecap="round"/>
-    <path d="M26 34 Q24 16 36 22 Q42 25 44 30z" fill="${FUR}" stroke="${OUT}" stroke-width="2.6" stroke-linejoin="round"/>
-    <path d="M74 34 Q76 16 64 22 Q58 25 56 30z" fill="${PATCH}" stroke="${OUT}" stroke-width="2.6" stroke-linejoin="round"/>
-    <path d="M30 30 Q29.5 22 35 25 Q38 27 39 29z" fill="${BLUSH}"/>
-    <path d="M70 30 Q70.5 22 65 25 Q62 27 61 29z" fill="${BLUSH}"/>
-    <ellipse cx="50" cy="58" rx="33" ry="29" fill="${FUR}" stroke="${OUT}" stroke-width="2.8"/>
-    <path d="M56 30 Q74 30 79 46 Q80 51 78 55 Q70 44 58 42 Q54 36 56 30z" fill="${PATCH}" opacity=".85"/>
-    ${eyes(mood)} ${mouth(mood)}
-    <ellipse cx="31" cy="58" rx="4.6" ry="3" fill="${BLUSH}"/>
-    <ellipse cx="69" cy="58" rx="4.6" ry="3" fill="${BLUSH}"/>
-    <path d="M18 54h8 M18 60l8 2" stroke="${OUT}" stroke-width="1.6" stroke-linecap="round"/>
-    <path d="M82 54h-8 M82 60l-8 2" stroke="${OUT}" stroke-width="1.6" stroke-linecap="round"/>
-    <ellipse cx="41" cy="83" rx="7.5" ry="5" fill="${FUR}" stroke="${OUT}" stroke-width="2.4"/>
-    <ellipse cx="59" cy="83" rx="7.5" ry="5" fill="${FUR}" stroke="${OUT}" stroke-width="2.4"/>
-    <path d="M39 81.5v3 M43 81.5v3 M57 81.5v3 M61 81.5v3" stroke="${OUT}" stroke-width="1.2" stroke-linecap="round"/>
-    ${extras(mood)}`;
-  if (!ring) return `<svg viewBox="0 0 100 100" width="100%" height="100%">${body}</svg>`;
-  return `<svg viewBox="0 0 100 108" width="100%" height="100%">
-    <ellipse cx="50" cy="86" rx="40" ry="14" fill="${RINGC}" stroke="${OUT}" stroke-width="2.4"/>
-    <ellipse cx="50" cy="84" rx="27" ry="8" fill="#0E2A4A"/>
-    <g transform="translate(4,6) scale(.92)">${body}</g>
-    <path d="M10 86 Q50 110 90 86 Q90 100 50 102 Q10 100 10 86z" fill="${RINGC}" stroke="${OUT}" stroke-width="2.4"/>
-    <ellipse cx="30" cy="92" rx="6" ry="2.6" fill="#fff" opacity=".55"/>
-    <ellipse cx="66" cy="94" rx="7" ry="2.8" fill="#fff" opacity=".55"/>
+
+/* ===== drinking cat (scan sheet) — the reference pose ===== */
+function drinkCat(){
+  return `<svg viewBox="0 0 110 100" width="100%" height="100%">
+    <path d="M62 46 Q72 30 84 26" stroke="${INK}" stroke-width="9" stroke-linecap="round"/>
+    <path d="M62 46 Q72 30 84 26" stroke="${TAN}" stroke-width="5" stroke-linecap="round"/>
+    <g transform="rotate(32 76 26)">
+      <rect x="62" y="18" width="30" height="15" rx="5" fill="#7FC8F5" stroke="${INK}" stroke-width="3"/>
+      <rect x="88" y="17.4" width="8" height="16.4" rx="3" fill="#fff" stroke="${INK}" stroke-width="3"/>
+      <path d="M67 23 l5 -2 M67 28 l5 -2" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <path d="M60 34 Q56 40 53 45" stroke="#7FC8F5" stroke-width="6" stroke-linecap="round"/>
+    <path d="M22 34 L26 16 L40 27z" fill="${TAN}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M66 30 L64 14 L50 24z" fill="${TAN}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="14" y="24" width="60" height="66" rx="26" fill="${TAN}" stroke="${INK}" stroke-width="3.4" transform="rotate(-8 44 57)"/>
+    <path d="M38 24 l1 8 M45 22.5 l1.5 9 M52 22.5 l1 8" stroke="${DARK}" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="30" cy="46" r="3.2" fill="${INK}"/>
+    <ellipse cx="51" cy="47" rx="5.5" ry="6.5" fill="${INK}"/>
+    <ellipse cx="51" cy="49" rx="3" ry="3.4" fill="${PINK}"/>
+    <path d="M16 60 l7 2 M16 67 l7 1" stroke="${DARK}" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M28 90 q3 5 8 0 M50 92 q3 5 8 0" stroke="${INK}" stroke-width="3" fill="${TAN}" stroke-linecap="round"/>
   </svg>`;
 }
 
-/* wave strips (two periods, loops on -50%) */
-const waveSVG = `<svg width="516" height="274" viewBox="0 0 516 274" preserveAspectRatio="none">
-  <path d="M0 15 Q32 0 64 15 T129 15 T193 15 T258 15 T322 15 T387 15 T451 15 T516 15 V274 H0 Z" fill="#39D6FF"/></svg>`;
-document.getElementById("wave1").innerHTML = waveSVG;
-document.getElementById("wave2").innerHTML = waveSVG;
+/* ===== app icon tile (static, ~55% full) ===== */
+document.getElementById("appIcon").innerHTML = `
+  <svg viewBox="0 0 1024 1024">
+    <rect width="1024" height="1024" fill="#CFEFF9"/>
+    <g transform="translate(248,100) scale(2.4)">
+      <path d="M82 48 L82 62 C82 74 74 80 63 88 C40 104 34 120 34 142 L34 200 C34 210 39 214 39 222 C39 230 34 234 34 244 L34 272 C34 294 48 304 68 306 L152 306 C172 304 186 294 186 272 L186 244 C186 234 181 230 181 222 C181 214 186 210 186 200 L186 142 C186 120 180 104 157 88 C146 80 138 74 138 62 L138 48 Z" fill="#fff"/>
+      <clipPath id="iclip"><path d="M82 48 L82 62 C82 74 74 80 63 88 C40 104 34 120 34 142 L34 200 C34 210 39 214 39 222 C39 230 34 234 34 244 L34 272 C34 294 48 304 68 306 L152 306 C172 304 186 294 186 272 L186 244 C186 234 181 230 181 222 C181 214 186 210 186 200 L186 142 C186 120 180 104 157 88 C146 80 138 74 138 62 L138 48 Z"/></clipPath>
+      <g clip-path="url(#iclip)">
+        <rect x="0" y="180" width="220" height="180" fill="#55A8F2"/>
+        <circle cx="62" cy="226" r="4" fill="#fff" opacity=".4"/>
+        <circle cx="150" cy="258" r="5" fill="#fff" opacity=".35"/>
+        <ellipse cx="110" cy="180" rx="80" ry="11" fill="#8FCBF8" stroke="${INK}" stroke-width="3"/>
+        <g transform="translate(0,180)">${peekCat("content")}</g>
+      </g>
+      <path d="M82 48 L82 62 C82 74 74 80 63 88 C40 104 34 120 34 142 L34 200 C34 210 39 214 39 222 C39 230 34 234 34 244 L34 272 C34 294 48 304 68 306 L152 306 C172 304 186 294 186 272 L186 244 C186 234 181 230 181 222 C181 214 186 210 186 200 L186 142 C186 120 180 104 157 88 C146 80 138 74 138 62 L138 48 Z" fill="none" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>
+      <rect x="74" y="38" width="72" height="11" rx="5.5" fill="#fff" stroke="${INK}" stroke-width="5"/>
+      <rect x="68" y="6" width="84" height="34" rx="10" fill="${AQUA}" stroke="${INK}" stroke-width="6"/>
+      <path d="M84 13 v20 M97 13 v20 M110 13 v20 M123 13 v20 M136 13 v20" stroke="${INK}" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+    </g>
+  </svg>`;
 
-/* ============ state & mood engine (mirrors theme.ts) ============ */
-const GOAL = 2500;
+/* ===== state & rescue mood engine (mirrors theme.ts) ===== */
+const GOAL = 2500, SURF_EMPTY = 282, SURF_FULL = 122;
 let total = 0, sips = [], sheetMl = 500, sheetBase = 500, celebrated = false;
 
 function mood(pct){
-  if (pct<=0) return {cat:"sleepy", line:"Bubbles is napping… wake her up with a sip!", face:"💧"};
-  if (pct<25) return {cat:"sleepy", line:"Nice start! Little sips, big wins.", face:"🙂"};
-  if (pct<50) return {cat:"content", line:"Warming up! Your future self says thanks.", face:"🙂"};
-  if (pct<75) return {cat:"happy", line:"Halfway there — Bubbles is purring!", face:"😄"};
-  if (pct<100) return {cat:"excited", line:"SO close! One more bottle to glory.", face:"🤩"};
-  if (pct<130) return {cat:"party", line:"GOAL! Bubbles is throwing you a pool party 🎉", face:"🏆"};
-  return {cat:"party", line:"Whale mode unlocked. Legendary hydration.", face:"🐳"};
+  if (pct<=0)  return {cat:"worried", face:"🆘", line:"Bubbles is stuck at the bottom! Drink up to float her out 🥺"};
+  if (pct<25)  return {cat:"worried", face:"😟", line:"The water's rising… keep sipping, she believes in you!"};
+  if (pct<50)  return {cat:"content", face:"🙂", line:"She's floating! Every sip lifts her higher."};
+  if (pct<75)  return {cat:"happy",   face:"😄", line:"Past halfway — Bubbles can see the bottle cap from here!"};
+  if (pct<100) return {cat:"excited", face:"🤩", line:"SO close! One more bottle and she's free!"};
+  if (pct<130) return {cat:"party",   face:"🏆", line:"YOU SAVED BUBBLES! 🎉 Hydration hero of the day."};
+  return       {cat:"party",   face:"🐳", line:"Saved AND then some. Legendary hydration."};
 }
 
 const $ = (id)=>document.getElementById(id);
@@ -429,32 +469,35 @@ const $ = (id)=>document.getElementById(id);
 function render(){
   const pct = total/GOAL*100, level = Math.min(1,total/GOAL);
   const m = mood(pct);
-  $("liters").textContent = (total/1000).toFixed(2);
-  $("pctline").textContent = Math.round(pct) + "% of goal";
-  const hPct = 8 + level*84;
-  $("water").style.height = hPct + "%";
-  $("orbCat").style.bottom = "calc(" + hPct + "% - 30px)";
-  $("orbCat").innerHTML = catSVG(m.cat, true);
-  $("moodCat").innerHTML = catSVG(m.cat, false);
+  const surfaceY = SURF_EMPTY - level*(SURF_EMPTY-SURF_FULL);
+  const shift = surfaceY - SURF_FULL;
+  $("waterG").style.transform = `translateY(${shift}px)`;
+  $("surfaceG").style.transform = `translateY(${shift}px)`;
+  $("catG").style.transform = `translateY(${shift}px)`;
+  $("catArt").innerHTML = peekCat(m.cat);
+  /* catArt is drawn relative to y=0 = surface; anchor it at the surface base */
+  $("catArt").setAttribute("transform", `translate(0,${SURF_FULL})`);
+
+  $("liters").textContent = (total/1000).toFixed(2)+"L";
+  $("pctline").textContent = pct>=100 ? "goal reached — Bubbles is saved! 🎉"
+                                       : Math.round(pct)+"% of the way to saving Bubbles";
+  $("moodCat").innerHTML = fullCat(m.cat);
   $("moodLine").textContent = m.line;
 
-  /* sips list */
   $("sips").innerHTML = sips.length
     ? sips.map(s=>`<div class="sip"><span>${s.src} ${s.ml}ml</span><time>${s.t}</time></div>`).join("")
-    : `<div class="empty">No sips yet — your bottle misses you 🥺</div>`;
+    : `<div class="empty">No sips yet — Bubbles is counting on you 🥺</div>`;
 
-  /* widgets */
   const filled = Math.round(level*8);
   $("awBig").textContent = `${m.face}  ${(total/1000).toFixed(1)}L`;
   $("awDots").textContent = "●".repeat(filled) + "○".repeat(8-filled);
-  $("awTiny").textContent = pct>=100 ? "goal smashed! 🎉" : "scan your bottle to add";
+  $("awTiny").textContent = pct>=100 ? "Bubbles is saved! 🎉" : "fill the bottle · save the cat";
   $("iosRing").style.strokeDashoffset = 194.8*(1-level);
   $("iosFace").textContent = m.face;
   $("iosNum").textContent = (total/1000).toFixed(1)+"L";
   $("lockRing").style.strokeDashoffset = 175.9*(1-level);
   $("lockNum").textContent = (total/1000).toFixed(1);
 
-  /* goal party */
   if (pct>=100 && !celebrated){ celebrated = true; confetti(); }
   if (pct<100) celebrated = false;
 }
@@ -464,7 +507,7 @@ function addSip(ml, src){ total += ml; sips.unshift({ml, src, t: now()}); render
 
 function confetti(){
   const host = $("phone");
-  "💧🎉✨🐾🌊⭐🐟🎊💦🏆🐾💧".match(/./gu).forEach((e,i,arr)=>{
+  ["💧","🎉","✨","🐾","🌊","⭐","🐟","🎊","💦","🏆","🐾","💧"].forEach((e,i,arr)=>{
     const s = document.createElement("span");
     s.className = "burst"; s.textContent = e;
     const a = i/arr.length*Math.PI*2+.4, d = 120+(i%3)*70;
@@ -475,16 +518,14 @@ function confetti(){
   });
 }
 
-/* quick-add chips */
 document.querySelectorAll(".chiprow .chip[data-ml]").forEach(c=>
   c.addEventListener("click", ()=>addSip(+c.dataset.ml, "✍️")));
 
-/* scan flow: sheet slides up with the sip already logged (fast path) */
 function openSheet(){
   sheetBase = 500; sheetMl = 500;
   addSip(sheetMl, "📡");
   $("sheetAmount").textContent = "+"+sheetMl+"ml";
-  const cat = $("sheetCat"); cat.innerHTML = catSVG("excited", false);
+  const cat = $("sheetCat"); cat.innerHTML = drinkCat();
   cat.style.animation = "none"; void cat.offsetWidth; cat.style.animation = "";
   document.querySelectorAll("#fracRow .chip").forEach(c=>c.classList.toggle("on", c.dataset.f==="1"));
   $("sheet").classList.add("open");

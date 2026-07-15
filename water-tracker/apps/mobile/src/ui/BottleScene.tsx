@@ -137,13 +137,13 @@ export function BottleScene({ totalMl, goalMl }: { totalMl: number; goalMl: numb
             <Circle cx={84} cy={110} r={3.4} fill="white" opacity={0.3} />
             <Circle cx={140} cy={140} r={4.4} fill="white" opacity={0.28} />
           </AnimatedG>
+          {/* water surface line (behind the cat, like the sticker reference) */}
+          <AnimatedEllipse cx={110} cy={surfaceY} rx={80} ry={11}
+            fill="#8FCBF8" stroke={INK} strokeWidth={3} />
           {/* Bubbles rides the surface */}
           <AnimatedG y={catY}>
             <PeekingCat catMood={catMood} />
           </AnimatedG>
-          {/* water surface line */}
-          <AnimatedEllipse cx={110} cy={surfaceY} rx={80} ry={11}
-            fill="#8FCBF8" stroke={INK} strokeWidth={3} />
         </G>
 
         {/* bottle outline on top */}
