@@ -6,7 +6,7 @@ import * as Haptics from "expo-haptics";
 import { adjustScan, removeScan } from "../lib/queue";
 import type { RootStackParamList } from "../lib/scanHandler";
 import { Chip, NeonButton, Screen } from "../ui/components";
-import { KawaiiCat } from "../ui/KawaiiCat";
+import { DrinkingCat } from "../ui/KawaiiCat";
 import { colors, type } from "../ui/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ScanConfirm">;
@@ -53,8 +53,7 @@ export default function ScanConfirmScreen({ route, navigation }: Props) {
         }}
       >
         <View style={styles.catRow}>
-          <KawaiiCat mood="excited" size={110} />
-          <Text style={styles.drop}>💧</Text>
+          <DrinkingCat size={130} />
         </View>
       </Animated.View>
       <Text style={styles.glug}>glug glug glug…</Text>
@@ -79,7 +78,6 @@ export default function ScanConfirmScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: { alignItems: "center", justifyContent: "center", gap: 14 },
   catRow: { flexDirection: "row", alignItems: "flex-end" },
-  drop: { fontSize: 40, marginLeft: -14, marginBottom: 8 },
   glug: { color: colors.aqua, fontSize: 15, letterSpacing: 3, textTransform: "uppercase" },
   amount: { marginTop: -6 },
   question: { marginTop: 16 },

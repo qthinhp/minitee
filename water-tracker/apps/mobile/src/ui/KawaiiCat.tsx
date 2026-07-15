@@ -1,169 +1,161 @@
-// Bubbles the cat 🐱 — an original chubby kawaii mascot (inspired by the
-// cozy round-cat aesthetic, drawn from scratch for this app). Pure SVG, so
-// it scales crisply everywhere, plus a FloatingCat variant that bobs on a
-// swim ring in the water orb.
+// Bubbles the cat 🐱 — original chubby tan cat drawn from scratch as SVG:
+// thick sticker outlines, flat colors, tiny ears, tabby stripes. Story: she
+// lives in your water bottle, and drinking enough water floats her to safety.
 
-import React, { useEffect, useRef } from "react";
-import { Animated, Easing } from "react-native";
-import Svg, { Circle, Ellipse, G, Path } from "react-native-svg";
+import React from "react";
+import Svg, { Circle, Ellipse, G, Path, Rect } from "react-native-svg";
 
-export type CatMood = "sleepy" | "content" | "happy" | "excited" | "party";
+export type CatMood = "worried" | "sleepy" | "content" | "happy" | "excited" | "party";
 
-const OUTLINE = "#4A3630";
-const FUR = "#FFF6E9";
-const PATCH = "#C8CDD6";
-const BLUSH = "#FFB3C1";
-const RING = "#FF8FAB";
+export const INK = "#1F1B16";      // thick outline
+export const TAN = "#F6C583";      // fur
+export const TAN_DARK = "#DBA55E"; // stripes
+export const PINK = "#F08AA0";     // mouth
+export const AQUA = "#5BD1DB";     // bottle cap / accents
 
 function Eyes({ mood }: { mood: CatMood }) {
   switch (mood) {
-    case "sleepy":
-      // closed, drooping
+    case "worried":
+    case "content":
       return (
         <G>
-          <Path d="M33 52 Q38 56 43 52" stroke={OUTLINE} strokeWidth={2.6} fill="none" strokeLinecap="round" />
-          <Path d="M57 52 Q62 56 67 52" stroke={OUTLINE} strokeWidth={2.6} fill="none" strokeLinecap="round" />
+          <Circle cx={40} cy={50.5} r={3.4} fill={INK} />
+          <Circle cx={62} cy={50.5} r={3.4} fill={INK} />
+        </G>
+      );
+    case "sleepy":
+      return (
+        <G>
+          <Path d="M35 51 Q40 55 45 51" stroke={INK} strokeWidth={2.6} fill="none" strokeLinecap="round" />
+          <Path d="M57 51 Q62 55 67 51" stroke={INK} strokeWidth={2.6} fill="none" strokeLinecap="round" />
         </G>
       );
     case "happy":
-      // ^ ^ arcs
       return (
         <G>
-          <Path d="M33 53 Q38 47 43 53" stroke={OUTLINE} strokeWidth={2.8} fill="none" strokeLinecap="round" />
-          <Path d="M57 53 Q62 47 67 53" stroke={OUTLINE} strokeWidth={2.8} fill="none" strokeLinecap="round" />
+          <Path d="M35 52 Q40 46 45 52" stroke={INK} strokeWidth={2.8} fill="none" strokeLinecap="round" />
+          <Path d="M57 52 Q62 46 67 52" stroke={INK} strokeWidth={2.8} fill="none" strokeLinecap="round" />
         </G>
       );
     case "excited":
-      // big sparkly rounds
       return (
         <G>
-          <Circle cx={38} cy={51} r={5} fill={OUTLINE} />
-          <Circle cx={62} cy={51} r={5} fill={OUTLINE} />
-          <Circle cx={39.8} cy={49.2} r={1.7} fill="white" />
-          <Circle cx={63.8} cy={49.2} r={1.7} fill="white" />
+          <Circle cx={40} cy={50} r={4.4} fill={INK} />
+          <Circle cx={62} cy={50} r={4.4} fill={INK} />
+          <Circle cx={41.6} cy={48.4} r={1.5} fill="white" />
+          <Circle cx={63.6} cy={48.4} r={1.5} fill="white" />
         </G>
       );
     case "party":
-      // star eyes
       return (
         <G>
-          <Path d="M38 46l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke={OUTLINE} strokeWidth={1} />
-          <Path d="M62 46l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke={OUTLINE} strokeWidth={1} />
-        </G>
-      );
-    default:
-      // content: calm beans
-      return (
-        <G>
-          <Circle cx={38} cy={51.5} r={3.6} fill={OUTLINE} />
-          <Circle cx={62} cy={51.5} r={3.6} fill={OUTLINE} />
-          <Circle cx={39.2} cy={50.3} r={1.2} fill="white" />
-          <Circle cx={63.2} cy={50.3} r={1.2} fill="white" />
+          <Path d="M40 45l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke={INK} strokeWidth={1} />
+          <Path d="M62 45l1.6 3.4 3.6.4-2.7 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.5 3.6-.4z" fill="#FFB020" stroke={INK} strokeWidth={1} />
         </G>
       );
   }
 }
 
 function Mouth({ mood }: { mood: CatMood }) {
-  if (mood === "party" || mood === "excited") {
-    return <Path d="M45 60 Q50 66 55 60 Q50 63 45 60z" fill="#E56B7F" stroke={OUTLINE} strokeWidth={1.6} />;
+  if (mood === "excited" || mood === "party") {
+    return <Path d="M46 58 Q51 65 56 58 Q51 61 46 58z" fill={PINK} stroke={INK} strokeWidth={1.8} />;
   }
-  // the classic little ω
-  return (
-    <Path d="M44.5 59 Q47.5 62.5 50 59.5 Q52.5 62.5 55.5 59"
-      stroke={OUTLINE} strokeWidth={2.2} fill="none" strokeLinecap="round" />
-  );
+  if (mood === "worried") {
+    return <Path d="M46 60 Q49 57.5 51 60 Q53 62.5 56 60" stroke={INK} strokeWidth={2.4} fill="none" strokeLinecap="round" />;
+  }
+  return <Path d="M48 59 Q51 61.5 54 59" stroke={INK} strokeWidth={2.2} fill="none" strokeLinecap="round" />;
 }
 
+function Extras({ mood }: { mood: CatMood }) {
+  if (mood === "worried") {
+    // sweat drop
+    return <Path d="M72 40 Q76 46 72 49 Q68 46 72 40z" fill="#8FD3F4" stroke={INK} strokeWidth={1.6} />;
+  }
+  if (mood === "sleepy") {
+    return <Path d="M74 34 h8 l-8 8 h8" stroke="#8FD3F4" strokeWidth={2.4} fill="none" strokeLinecap="round" strokeLinejoin="round" />;
+  }
+  if (mood === "party") {
+    return (
+      <G>
+        <Path d="M42 20 L51 4 L60 20 Q51 25 42 20z" fill={AQUA} stroke={INK} strokeWidth={2} strokeLinejoin="round" />
+        <Circle cx={51} cy={5} r={3} fill="#FFB020" stroke={INK} strokeWidth={1.4} />
+      </G>
+    );
+  }
+  if (mood === "excited") {
+    return <Path d="M24 32l1.2 2.6 2.8.3-2.1 1.9.6 2.8-2.5-1.5-2.5 1.5.6-2.8-2.1-1.9 2.8-.3z" fill="#FFD66B" />;
+  }
+  return null;
+}
+
+/** Full-body Bubbles: chunky rounded-square blob with tabby stripes. */
 export function KawaiiCat({ mood, size = 90 }: { mood: CatMood; size?: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      {/* tail curled around the side */}
-      <Path d="M80 74 Q94 70 90 58 Q88 52 82 54" fill="none"
-        stroke={OUTLINE} strokeWidth={7} strokeLinecap="round" />
-      <Path d="M80 74 Q94 70 90 58 Q88 52 82 54" fill="none"
-        stroke={FUR} strokeWidth={4} strokeLinecap="round" />
+      {/* tail curling out the right side, with stripes */}
+      <Path d="M82 76 Q97 74 94 60 Q93 54 87 55" fill="none" stroke={INK} strokeWidth={9} strokeLinecap="round" />
+      <Path d="M82 76 Q97 74 94 60 Q93 54 87 55" fill="none" stroke={TAN} strokeWidth={5} strokeLinecap="round" />
+      <Path d="M92 70 l5 -1 M93 63 l5 -1.5" stroke={INK} strokeWidth={2} strokeLinecap="round" />
 
-      {/* ears */}
-      <Path d="M26 34 Q24 16 36 22 Q42 25 44 30z" fill={FUR} stroke={OUTLINE} strokeWidth={2.6} strokeLinejoin="round" />
-      <Path d="M74 34 Q76 16 64 22 Q58 25 56 30z" fill={PATCH} stroke={OUTLINE} strokeWidth={2.6} strokeLinejoin="round" />
-      <Path d="M30 30 Q29.5 22 35 25 Q38 27 39 29z" fill={BLUSH} />
-      <Path d="M70 30 Q70.5 22 65 25 Q62 27 61 29z" fill={BLUSH} />
+      {/* ears: little triangles on the blob's top corners */}
+      <Path d="M27 36 L31 18 L45 29z" fill={TAN} stroke={INK} strokeWidth={3} strokeLinejoin="round" />
+      <Path d="M75 36 L71 18 L57 29z" fill={TAN} stroke={INK} strokeWidth={3} strokeLinejoin="round" />
 
-      {/* chubby blob body+head */}
-      <Ellipse cx={50} cy={58} rx={33} ry={29} fill={FUR} stroke={OUTLINE} strokeWidth={2.8} />
+      {/* chunky rounded-square body */}
+      <Rect x={20} y={26} width={62} height={64} rx={26} fill={TAN} stroke={INK} strokeWidth={3.4} />
 
-      {/* grey patch over one eye-side, kawaii asymmetry */}
-      <Path d="M56 30 Q74 30 79 46 Q80 51 78 55 Q70 44 58 42 Q54 36 56 30z" fill={PATCH} opacity={0.85} />
+      {/* tabby stripes: crown + cheek */}
+      <Path d="M45 27 v8 M51 26 v10 M57 27 v8" stroke={TAN_DARK} strokeWidth={3} strokeLinecap="round" />
+      <Path d="M22 56 l7 2 M22 63 l7 1" stroke={TAN_DARK} strokeWidth={2.6} strokeLinecap="round" />
 
       {/* face */}
       <Eyes mood={mood} />
       <Mouth mood={mood} />
-      <Ellipse cx={31} cy={58} rx={4.6} ry={3} fill={BLUSH} />
-      <Ellipse cx={69} cy={58} rx={4.6} ry={3} fill={BLUSH} />
 
-      {/* whiskers */}
-      <Path d="M18 54h8 M18 60l8 2" stroke={OUTLINE} strokeWidth={1.6} strokeLinecap="round" />
-      <Path d="M82 54h-8 M82 60l-8 2" stroke={OUTLINE} strokeWidth={1.6} strokeLinecap="round" />
+      {/* stubby feet */}
+      <Path d="M34 89 q3 5 8 0 M58 89 q3 5 8 0" stroke={INK} strokeWidth={3} fill={TAN} strokeLinecap="round" />
 
-      {/* front paws resting on the tummy */}
-      <Ellipse cx={41} cy={83} rx={7.5} ry={5} fill={FUR} stroke={OUTLINE} strokeWidth={2.4} />
-      <Ellipse cx={59} cy={83} rx={7.5} ry={5} fill={FUR} stroke={OUTLINE} strokeWidth={2.4} />
-      <Path d="M39 81.5v3 M43 81.5v3 M57 81.5v3 M61 81.5v3" stroke={OUTLINE} strokeWidth={1.2} strokeLinecap="round" />
-
-      {/* zzz when sleepy / party hat when partying */}
-      {mood === "sleepy" && (
-        <Path d="M74 30 h8 l-8 8 h8" stroke="#7FB8E8" strokeWidth={2.4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      )}
-      {mood === "party" && (
-        <G>
-          <Path d="M42 18 L50 2 L58 18 Q50 23 42 18z" fill="#39D6FF" stroke={OUTLINE} strokeWidth={2} strokeLinejoin="round" />
-          <Circle cx={50} cy={3.5} r={3} fill="#FFB020" stroke={OUTLINE} strokeWidth={1.4} />
-        </G>
-      )}
+      <Extras mood={mood} />
     </Svg>
   );
 }
 
-/** Cat lounging in a swim ring, gently bobbing — lives on the orb's water line. */
-export function FloatingCat({ mood, size = 84 }: { mood: CatMood; size?: number }) {
-  const bob = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(bob, { toValue: 1, duration: 1600, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-        Animated.timing(bob, { toValue: 0, duration: 1600, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      ]),
-    );
-    loop.start();
-    return () => loop.stop();
-  }, [bob]);
-
+/** Bubbles chugging from her bottle — the scan-confirmation hero pose. */
+export function DrinkingCat({ size = 120 }: { size?: number }) {
   return (
-    <Animated.View
-      pointerEvents="none"
-      style={{
-        transform: [
-          { translateY: bob.interpolate({ inputRange: [0, 1], outputRange: [0, -7] }) },
-          { rotate: bob.interpolate({ inputRange: [0, 1], outputRange: ["-4deg", "4deg"] }) },
-        ],
-      }}
-    >
-      <Svg width={size} height={size} viewBox="0 0 100 100">
-        {/* swim ring behind the cat */}
-        <Ellipse cx={50} cy={72} rx={38} ry={14} fill={RING} stroke={OUTLINE} strokeWidth={2.4} />
-        <Ellipse cx={50} cy={70} rx={26} ry={8} fill="#0E2A4A" />
-      </Svg>
-      <Animated.View style={{ position: "absolute", left: size * 0.09, top: -size * 0.18 }}>
-        <KawaiiCat mood={mood} size={size * 0.82} />
-      </Animated.View>
-      <Svg width={size} height={size} viewBox="0 0 100 100" style={{ position: "absolute" }}>
-        {/* ring front lip overlaps the cat's tummy so it sits "inside" */}
-        <Path d="M12 72 Q50 96 88 72 Q88 86 50 88 Q12 86 12 72z" fill={RING} stroke={OUTLINE} strokeWidth={2.4} />
-        <Ellipse cx={30} cy={78} rx={6} ry={2.6} fill="white" opacity={0.55} />
-        <Ellipse cx={66} cy={80} rx={7} ry={2.8} fill="white" opacity={0.55} />
-      </Svg>
-    </Animated.View>
+    <Svg width={size} height={size} viewBox="0 0 110 100">
+      {/* raised arm holding the bottle */}
+      <Path d="M62 46 Q72 30 84 26" stroke={INK} strokeWidth={9} strokeLinecap="round" />
+      <Path d="M62 46 Q72 30 84 26" stroke={TAN} strokeWidth={5} strokeLinecap="round" />
+
+      {/* tilted bottle at the mouth */}
+      <G rotation={32} origin="76, 26">
+        <Rect x={62} y={18} width={30} height={15} rx={5} fill="#7FC8F5" stroke={INK} strokeWidth={3} />
+        <Rect x={88} y={17.4} width={8} height={16.4} rx={3} fill="white" stroke={INK} strokeWidth={3} />
+        <Path d="M67 23 l5 -2 M67 28 l5 -2" stroke="white" strokeWidth={2} strokeLinecap="round" />
+      </G>
+      {/* water stream into the mouth */}
+      <Path d="M60 34 Q56 40 53 45" stroke="#7FC8F5" strokeWidth={6} strokeLinecap="round" />
+
+      {/* ears */}
+      <Path d="M22 34 L26 16 L40 27z" fill={TAN} stroke={INK} strokeWidth={3} strokeLinejoin="round" />
+      <Path d="M66 30 L64 14 L50 24z" fill={TAN} stroke={INK} strokeWidth={3} strokeLinejoin="round" />
+
+      {/* tilted-back chunky body */}
+      <Rect x={14} y={24} width={60} height={66} rx={26} fill={TAN} stroke={INK} strokeWidth={3.4}
+        transform="rotate(-8 44 57)" />
+
+      {/* crown stripes */}
+      <Path d="M38 24 l1 8 M45 22.5 l1.5 9 M52 22.5 l1 8" stroke={TAN_DARK} strokeWidth={3} strokeLinecap="round" />
+
+      {/* face mid-glug: closed blissful eye + open mouth catching the stream */}
+      <Circle cx={30} cy={46} r={3.2} fill={INK} />
+      <Ellipse cx={51} cy={47} rx={5.5} ry={6.5} fill={INK} />
+      <Ellipse cx={51} cy={49} rx={3} ry={3.4} fill={PINK} />
+
+      {/* cheek stripes + stubby feet */}
+      <Path d="M16 60 l7 2 M16 67 l7 1" stroke={TAN_DARK} strokeWidth={2.6} strokeLinecap="round" />
+      <Path d="M28 90 q3 5 8 0 M50 92 q3 5 8 0" stroke={INK} strokeWidth={3} fill={TAN} strokeLinecap="round" />
+    </Svg>
   );
 }

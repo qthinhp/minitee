@@ -41,7 +41,7 @@ export function HydrationWidget({ totalMl, goalMl }: { totalMl: number; goalMl: 
         style={{ fontSize: 16, color: "#39D6FF", marginTop: 6, letterSpacing: 2 }}
       />
       <TextWidget
-        text={pct >= 1 ? "goal smashed! 🎉" : "scan your bottle to add"}
+        text={pct >= 1 ? "Bubbles is saved! 🎉" : "fill the bottle · save the cat"}
         style={{ fontSize: 11, color: "#7FA8CC", marginTop: 6 }}
       />
     </FlexWidget>

@@ -12,7 +12,7 @@ import { NFC_MOCK_MODE, readTag } from "../lib/nfc";
 import { syncWidgets } from "../widgets/widget-sync";
 import { Chip, GlowCard, NeonButton, Screen } from "../ui/components";
 import { KawaiiCat } from "../ui/KawaiiCat";
-import { WaterOrb } from "../ui/WaterOrb";
+import { BottleScene } from "../ui/BottleScene";
 import { Celebration } from "../ui/Celebration";
 import { colors, mood, type } from "../ui/theme";
 
@@ -86,7 +86,7 @@ export default function TodayScreen({ navigation }: Props) {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={styles.header}>
-            <WaterOrb totalMl={total} goalMl={goal} />
+            <BottleScene totalMl={total} goalMl={goal} />
 
             <GlowCard style={styles.mascotCard}>
               <KawaiiCat mood={drippy.cat} size={58} />
