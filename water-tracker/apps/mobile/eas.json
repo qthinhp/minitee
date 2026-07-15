@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 12.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://REPLACE-ME.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "REPLACE-ME",
+        "EXPO_PUBLIC_TAG_DOMAIN": "minitee.app"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://REPLACE-ME.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "REPLACE-ME",
+        "EXPO_PUBLIC_TAG_DOMAIN": "minitee.app"
+      }
+    },
+    "production": {
+      "autoIncrement": true
+    }
+  }
+}

@@ -20,11 +20,11 @@ export async function syncWidgets(totalMl: number, goalMl: number | null): Promi
     } else if (Platform.OS === "ios") {
       // Mirror into App Group defaults for the WidgetKit extension,
       // then ask iOS to redraw the widget timeline.
-      const { WidgetKit } = await import("react-native-widgetkit");
-      await WidgetKit.setItem("total_ml", String(totalMl), APP_GROUP);
-      await WidgetKit.setItem("goal_ml", String(goalMl ?? 0), APP_GROUP);
-      await WidgetKit.setItem("day", data.day, APP_GROUP);
-      WidgetKit.reloadAllTimelines();
+      const { setItem, reloadAllTimelines } = await import("react-native-widgetkit");
+      await setItem("total_ml", String(totalMl), APP_GROUP);
+      await setItem("goal_ml", String(goalMl ?? 0), APP_GROUP);
+      await setItem("day", data.day, APP_GROUP);
+      reloadAllTimelines();
     }
   } catch {
     // Widget module not linked yet (e.g. Expo Go / first dev build) — fine.
